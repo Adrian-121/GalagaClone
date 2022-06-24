@@ -1,0 +1,13 @@
+{
+	"Name": "Level 1",
+	"SequenceList":
+	[
+		{
+			"TimeFromLast": 1.25,
+			"EnemyType": 1,
+			"Delay": 0.25,
+			"MovementPatternName": "p1",
+			"SpawnCount": 5
+		},
+	]
+}

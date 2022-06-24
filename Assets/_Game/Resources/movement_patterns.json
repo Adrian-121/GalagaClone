@@ -1,0 +1,20 @@
+{
+	"Patterns":
+	[
+		{
+			"Name": "p1",
+			"SequenceList": [
+				{
+					"SpeedMultiplier": 1,
+					"TimeInSeconds": 3,
+					"AngleInDegrees": 30
+				},
+				{
+					"SpeedMultiplier": -1,
+					"TimeInSeconds": 3,
+					"AngleInDegrees": -30
+				}
+			]
+		}		
+	]
+}

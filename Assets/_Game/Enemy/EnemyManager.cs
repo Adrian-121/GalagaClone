@@ -8,7 +8,10 @@ public class EnemyManager : MonoBehaviour {
 
     private EnemyFormation _formation;
 
-    private List<MovementPatternResource> _movementPatterns;
+    private List<MovementPatternResource> _movementPatternList;
+    private Dictionary<string, MovementPatternResource> _nameToMovementPattern = new Dictionary<string, MovementPatternResource>();
+
+    private List<EnemyMainController> _enemyList;
 
     [Inject]
     public void Construct(EnemyMainController.Factory enemyFactory, ResourceLoader resourceLoader) {
@@ -18,21 +21,29 @@ public class EnemyManager : MonoBehaviour {
         FormationResource formationResource = resourceLoader.GetFormation("default_formation");
         _formation.Initialize(formationResource);
 
-        _movementPatterns = resourceLoader.GetMovementPatterns();
+        _movementPatternList = resourceLoader.GetMovementPatterns();
+        foreach (MovementPatternResource movementPattern in _movementPatternList) {
+            _nameToMovementPattern.Add(movementPattern.Name, movementPattern);
+        }
+
+        for (int i = 0; i < Constants.ENEMY_POOL_MAX; i++) {
+            EnemyMainController newEnemy = _enemyFactory.Create();
+            newEnemy.Construct(_formation);
+            _enemyList.Add(newEnemy);
+        }
     }
-    
-    public void StartGame() {
-        EnemyMainController newEnemy = _enemyFactory.Create();
-        newEnemy.Construct(_formation);
+    public void SpawnEnemy(EnemyMainController.TypeEnum type, string movementPatternName) {
+        EnemyMainController enemyToUse = null;
 
+        foreach (EnemyMainController enemy in _enemyList) {
+            if (!enemy.IsAlive) {
+                enemyToUse = enemy;
+                break;
+            }
+        }
 
-        newEnemy.Initialize(Vector3.zero, _movementPatterns[0]);
+        if (enemyToUse == null) { return; }
 
-        //for (int i = 0; i < formationResource.UsedSlotsNumber; i++) {
-        //    EnemyMainController en = Instantiate(_TEMPenemyPrefab);
-        //    en.Construct(_formation);
-        //}
+        enemyToUse.Initialize(type, _nameToMovementPattern[_nameToMovementPattern]);
     }
-
-
 }

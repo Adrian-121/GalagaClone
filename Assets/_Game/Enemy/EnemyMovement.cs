@@ -24,8 +24,8 @@ public class EnemyMovement : MonoBehaviour {
         _patternMover.OnPatternFinished.AddListener(OnPatternFinished);
     }
 
-    public void Initialize(Vector3 startPosition, MovementPatternResource movementPattern) {
-        _enemy.transform.position = startPosition;
+    public void Initialize(MovementPatternResource movementPattern) {
+        _enemy.transform.position = Vector3.zero;
         _patternMover.Initialize(movementPattern);
 
         ChangeMovement(MovementTypes.PATTERN);

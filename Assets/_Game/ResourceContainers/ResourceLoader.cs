@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class ResourceLoader : MonoBehaviour {
 
+    [SerializeField] private GameConfig _gameConfig;
+    public GameConfig GameConfig => _gameConfig;
+
     private const string MOVEMENT_PATTERNS = "movement_patterns";
     private const string FORMATIONS_FOLDER = "Formations/";
     private const string LEVELS_FOLDER = "Levels/";

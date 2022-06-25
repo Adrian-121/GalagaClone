@@ -8,7 +8,6 @@ public class GameDependencyInstaller : MonoInstaller {
     [SerializeField] EnemyMainController _enemyPrefab;
 
     public override void InstallBindings() {
-
         SignalBusInstaller.Install(Container);
 
         Container.DeclareSignal<PlayerFireSignal>();
@@ -16,6 +15,9 @@ public class GameDependencyInstaller : MonoInstaller {
         Container.DeclareSignal<HighscoresSignal>();
         Container.DeclareSignal<HighscoreBackSignal>();
         Container.DeclareSignal<EditorSignal>();
+        Container.DeclareSignal<LevelChangedSignal>();
+        Container.DeclareSignal<PlayerKilledSignal>();
+        Container.DeclareSignal<GameTimeTickSignal>();
 
 
         Container.Bind<ProjectileManager>().FromInstance(FindObjectOfType<ProjectileManager>()).AsSingle().NonLazy();
@@ -40,5 +42,4 @@ public class GameDependencyInstaller : MonoInstaller {
         Container.BindFactory<EnemyMainController, EnemyMainController.Factory>().FromComponentInNewPrefab(_enemyPrefab).AsTransient();
         Container.BindFactory<Projectile, Projectile.Factory>().FromComponentInNewPrefab(_projectilePrefab).AsTransient();        
     }
-
 }

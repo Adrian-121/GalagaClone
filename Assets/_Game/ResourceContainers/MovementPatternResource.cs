@@ -16,6 +16,7 @@ public class MovementPatternResource {
     }
 
     public string Name;
+    public int Spawner;
     public List<Sequence> SequenceList;
 
 }

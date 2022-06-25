@@ -3,6 +3,7 @@
 	[
 		{
 			"Name": "p1",
+			"Spawner": 1,
 			"SequenceList": [
 				{
 					"SpeedMultiplier": 1,

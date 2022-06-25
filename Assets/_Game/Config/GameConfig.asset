@@ -12,5 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ddd5128e6f43bf4eb8cc2f8c71abe9a, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 3409881007266198785, guid: 8f5b885e87f597a409dae200ad7ecc42, type: 3}
-  PlayerPrefab: {fileID: 7827467333393554808, guid: 8e0c648ee49faab4bbb6a95c9a964450, type: 3}
+  DefaultEnemyConfig:
+    type: 1
+    hp: 1
+    speed: 1
+  EnemyConfigList:
+  - type: 1
+    hp: 1
+    speed: 1
+  - type: 2
+    hp: 1
+    speed: 1
+  - type: 3
+    hp: 2
+    speed: 1

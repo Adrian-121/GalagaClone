@@ -15,7 +15,7 @@ public class GameState : BaseGameState {
 
     public override void OnExit() {
         _inGameUI.SetActive(false);
-        _gameManager.CleanupGame();
+        _gameManager.StopGame();
     }
 
     public override void OnUpdate() {

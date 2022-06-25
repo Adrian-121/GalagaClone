@@ -10,7 +10,7 @@ public class ResourceLoader : MonoBehaviour {
     private const string FORMATIONS_FOLDER = "Formations/";
     private const string LEVELS_FOLDER = "Levels/";
 
-    public FormationResource GetFormation(string name) {
+    public FormationPatternResource GetFormation(string name) {
         TextAsset rawResource = Resources.Load(FORMATIONS_FOLDER + name) as TextAsset;
         return ParseFormationResource(rawResource);
     }
@@ -31,7 +31,7 @@ public class ResourceLoader : MonoBehaviour {
         return resource;
     }
 
-    private FormationResource ParseFormationResource(TextAsset textFile) {
+    private FormationPatternResource ParseFormationResource(TextAsset textFile) {
         int maxRows = int.MinValue;
         int maxColumns = int.MinValue;
         int usedSlotNumbers = 0;
@@ -59,7 +59,7 @@ public class ResourceLoader : MonoBehaviour {
             }
         }
 
-        return new FormationResource(maxRows, maxColumns, usedSlotNumbers, resultValues);
+        return new FormationPatternResource(maxRows, maxColumns, usedSlotNumbers, resultValues);
     }
 
     private void ComputeCSVSize(string[] lines, out int maxRows, out int maxColumns) {

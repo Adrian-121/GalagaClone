@@ -3,16 +3,14 @@ using Zenject;
 
 public abstract class BaseGameState : MonoBehaviour {
 
-    [Inject]
-    protected GameFSM _gameFSM;
-
-    [Inject]
-    protected readonly SignalBus _signalBus;
+    [Inject] protected GameFSM _gameFSM;
+    [Inject] protected readonly SignalBus _signalBus;
 
     public enum StateNameEnum {
         MAIN_MENU = 1,
         GAME = 2,
-        HIGHSCORES = 3
+        HIGHSCORES = 3,
+        GAME_OVER = 4
     }
 
     [SerializeField] protected StateNameEnum _stateName;

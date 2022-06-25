@@ -2,13 +2,17 @@ using UnityEngine;
 
 public abstract class BaseEnemyMover : MonoBehaviour {
 
-    protected Transform _enemyTransform;
-    protected float _speed;
+    public enum TypeEnum {
+        FORMATION = 1,
+        PATTERN = 2,
+        LUNGE = 3
+    }
 
-    //public virtual void Construct(Transform enemyTransform, float speed) {
-    //    _enemyTransform = enemyTransform;
-    //    _speed = speed;
-    //}
+    [SerializeField] protected TypeEnum _type;
+    public TypeEnum Type => _type;
+
+    protected EnemyMainController _enemy;
+    protected GameConfig.EnemyConfig _config;
 
     public abstract void OnEnter();
     public abstract void OnUpdate();

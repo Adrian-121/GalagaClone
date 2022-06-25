@@ -2,33 +2,39 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
-    public enum MovementTypes {
-        FORMATION = 1,
-        PATTERN = 2
-    }
-
     private EnemyMainController _enemy;
 
     private BaseEnemyMover _currentMover;
     private EnemyFormationMover _formationMover;
     private EnemyPatternMover _patternMover;
+    private EnemyLungeMover _lungeMover;
 
-    public void Construct(EnemyMainController enemy, EnemyFormation formation, float speed) {
+    public void Construct(EnemyMainController enemy, EnemyFormation formation) {
         _enemy = enemy;
 
         _formationMover = GetComponentInChildren<EnemyFormationMover>();
-        _formationMover.Construct(enemy.transform, formation, speed);
+        _formationMover.Construct(enemy, formation);
 
         _patternMover = GetComponentInChildren<EnemyPatternMover>();
-        _patternMover.Construct(enemy.transform, speed);
+        _patternMover.Construct(enemy);
         _patternMover.OnPatternFinished.AddListener(OnPatternFinished);
+
+        _lungeMover = GetComponentInChildren<EnemyLungeMover>();
+        _lungeMover.Construct(enemy);
+        _lungeMover.OnLungeFinished.AddListener(OnLungeFinished);
     }
 
-    public void Initialize(MovementPatternResource movementPattern) {
-        _enemy.transform.position = Vector3.zero;
-        _patternMover.Initialize(movementPattern);
+    public void Initialize(MovementPatternResource movementPattern, GameConfig.EnemyConfig config, Vector3 startPosition) {
+        _enemy.transform.position = startPosition;
 
-        ChangeMovement(MovementTypes.PATTERN);
+        _patternMover.Initialize(movementPattern, config);
+        _formationMover.Initialize(config);
+
+        ChangeMovement(BaseEnemyMover.TypeEnum.PATTERN);
+    }
+
+    public void Deinitialize() {
+
     }
 
     public void UpdateThis() {
@@ -37,17 +43,17 @@ public class EnemyMovement : MonoBehaviour {
         }
     }
 
-    private void ChangeMovement(MovementTypes movementType) {
+    private void ChangeMovement(BaseEnemyMover.TypeEnum movementType) {
         if (_currentMover != null) {
             _currentMover.OnExit();
         }
 
         switch (movementType) {
-            case MovementTypes.FORMATION:
+            case BaseEnemyMover.TypeEnum.FORMATION:
                 _currentMover = _formationMover;
                 break;
 
-            case MovementTypes.PATTERN:
+            case BaseEnemyMover.TypeEnum.PATTERN:
                 _currentMover = _patternMover;
                 break;
         }
@@ -58,6 +64,10 @@ public class EnemyMovement : MonoBehaviour {
     }
 
     private void OnPatternFinished() {
-        ChangeMovement(MovementTypes.FORMATION);
+        ChangeMovement(BaseEnemyMover.TypeEnum.FORMATION);
+    }
+
+    private void OnLungeFinished() {
+        ChangeMovement(BaseEnemyMover.TypeEnum.FORMATION);
     }
 }

@@ -7,18 +7,21 @@ public class EnemyFormationMover : BaseEnemyMover {
 
     private bool _isInFormation = false;
 
-    public void Construct(Transform enemyTransform, EnemyFormation enemyFormation, float speed) {
-        _enemyTransform = enemyTransform;
-        _speed = speed;
+    public void Construct(EnemyMainController enemy, EnemyFormation enemyFormation) {
+        _enemy = enemy;
         _enemyFormation = enemyFormation;
     }
 
+    public void Initialize(GameConfig.EnemyConfig config) {
+        _config = config;
+    }
+
     public override void OnEnter() {
-        _formationSlot = _enemyFormation.GetFormationSlot();
+        _formationSlot = _enemyFormation.AssignEnemy(_enemy);
     }
 
     public override void OnExit() {
-        _enemyFormation.ReleaseFormationSlot(_formationSlot);
+        _enemyFormation.RemoveEnemy(_enemy);
     }
 
     public override void OnUpdate() {
@@ -32,18 +35,18 @@ public class EnemyFormationMover : BaseEnemyMover {
 
     private void GotoFormationPosition() {
         Vector3 formationPosition = _enemyFormation.GetRelativePosition(_formationSlot);
-        float dist = Vector3.Distance(_enemyTransform.position, formationPosition);
+        float dist = Vector3.Distance(_enemy.transform.position, formationPosition);
 
         if (dist < 0.01f) {
             _isInFormation = true;
             return;
         }
 
-        Vector3 dir = (formationPosition - _enemyTransform.position).normalized;
-        _enemyTransform.Translate(_speed * dir * Time.deltaTime);
+        Vector3 dir = (formationPosition - _enemy.transform.position).normalized;
+        _enemy.transform.Translate(_config.speed * dir * Time.deltaTime);
     }
 
     private void MaintainFormation() {
-        _enemyTransform.position = _enemyFormation.GetRelativePosition(_formationSlot);
+        _enemy.transform.position = _enemyFormation.GetRelativePosition(_formationSlot);
     }
 }

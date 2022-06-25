@@ -4,7 +4,7 @@
 	[
 		{
 			"Time": 1,
-			"EnemyType": 1,
+			"EnemyType": 3,
 			"Delay": 0.25,
 			"MovementPatternName": "p1",
 			"SpawnCount": 5

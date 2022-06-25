@@ -1,7 +1,8 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
-public class EnemyMainController : MonoBehaviour {
+public class EnemyMainController : MonoBehaviour, ITakeHit {
 
     public enum TypeEnum {
         GRUNT = 1,
@@ -10,14 +11,15 @@ public class EnemyMainController : MonoBehaviour {
     }
 
     private TypeEnum _type;
-    private float _speed = 10;
+    public TypeEnum Type => _type;
     private float _hp = 1;
 
-    [Inject]
-    private ResourceLoader _resourceLoader;
+    [Inject] private SignalBus _signalBus;
+    [Inject] private ResourceLoader _resourceLoader;
+    [Inject] private VFXManager _vfxManager;
+    [Inject] private SoundManager _soundManager;
 
     private EnemyMovement _movement;
-    private EnemyCollisionDetector _collisionDetector;
     private SpriteRenderer _renderer;
     private Animator _animator;
 
@@ -26,24 +28,19 @@ public class EnemyMainController : MonoBehaviour {
 
     public void Construct(EnemyFormation formation) {
         _movement = GetComponentInChildren<EnemyMovement>();
-        _movement.Construct(this, formation, _speed);
-
-        _collisionDetector = GetComponentInChildren<EnemyCollisionDetector>();
-        _collisionDetector.OnHit.AddListener(OnHit);
+        _movement.Construct(this, formation);
 
         _renderer = GetComponentInChildren<SpriteRenderer>();
-        _renderer.gameObject.SetActive(false);
-
         _animator = GetComponentInChildren<Animator>();
 
-        IsAlive = false;
+        Deinitialize();
     }
 
-    public void Initialize(TypeEnum type, MovementPatternResource movementPattern) {
+    public void Initialize(TypeEnum type, MovementPatternResource movementPattern, Vector3 startPosition) {
+        _renderer.gameObject.SetActive(true);
         Configure(type);
 
-        _renderer.gameObject.SetActive(true);
-        _movement.Initialize(movementPattern);
+        _movement.Initialize(movementPattern, _config, startPosition);
 
         IsAlive = true;
     }
@@ -64,17 +61,26 @@ public class EnemyMainController : MonoBehaviour {
         _config = _resourceLoader.GameConfig.GetEnemyConfigByType(_type);
 
         _hp = _config.hp;
-        _speed = _config.speed;
 
         _animator.SetInteger(Constants.ANIM_ENEMY_TYPE, (int)_type);
         _animator.SetBool(Constants.ANIM_IS_FULL_HP, true);
     }
 
-    private void OnHit() {
+    public void TakeHit(GameObject from) {
         _hp--;
         _animator.SetBool(Constants.ANIM_IS_FULL_HP, false);
 
         if (_hp <= 0) {
+            _vfxManager.SpawnVFX(VFXObject.TypeEnum.ENEMY_EXPLOSION, transform.position);
+
+            if (_type == TypeEnum.BOSS) {
+                _soundManager.PlayBigBoom();
+            }
+            else {
+                _soundManager.PlaySmallBoom();
+            }
+            
+            _signalBus.Fire(new EnemyKilledSignal() { Points = _config.points });
             Deinitialize(true);
         }
     }

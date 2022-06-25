@@ -8,15 +8,16 @@ public class EnemyPatternMover : BaseEnemyMover {
     private MovementPatternResource _movementPattern;
     private int _currentSequenceID;
     private float _currentTimer;
+
     private bool _isFinished;
     
-    public void Construct(Transform enemyTransform, float speed) {
-        _enemyTransform = enemyTransform;
-        _speed = speed;
+    public void Construct(EnemyMainController enemy) {
+        _enemy = enemy;
     }
 
-    public void Initialize(MovementPatternResource movementPattern) {
+    public void Initialize(MovementPatternResource movementPattern, GameConfig.EnemyConfig config) {
         _movementPattern = movementPattern;
+        _config = config;
         
         _currentSequenceID = 0;
         _currentTimer = Time.time;
@@ -56,7 +57,7 @@ public class EnemyPatternMover : BaseEnemyMover {
         float speedMultiplier = _movementPattern.SequenceList[_currentSequenceID].SpeedMultiplier;
         float angle = _movementPattern.SequenceList[_currentSequenceID].AngleInDegrees;
 
-        _enemyTransform.Translate(Vector3.up * (_speed * speedMultiplier) * Time.deltaTime);
-        _enemyTransform.Rotate(Vector3.forward, angle * Time.deltaTime);
+        _enemy.transform.Translate(Vector3.up * (_config.speed * speedMultiplier) * Time.deltaTime);
+        _enemy.transform.Rotate(Vector3.forward, angle * Time.deltaTime);
     }
 }

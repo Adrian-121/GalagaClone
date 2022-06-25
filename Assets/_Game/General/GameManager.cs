@@ -19,8 +19,17 @@ public class GameManager : MonoBehaviour {
     private int _currentLevelNumber = 1;
     private LevelResource _currentLevel;
     private int _gameTime;
-    private int _lastLevelSequenceID;
-    private LevelResource.Sequence LastLevelSequence => _currentLevel.SequenceList[_lastLevelSequenceID];
+    private int _currentLevelSequenceID;
+
+    private int _currentScore;
+    private int CurrentScore {
+        get { return _currentScore; }
+        set {
+            _currentScore = value;
+            _signalBus.Fire(new CurrentScoreSignal() { Score = _currentScore });
+        }
+    }
+    
 
     private Coroutine _gameTimeCoroutine;
 
@@ -30,7 +39,10 @@ public class GameManager : MonoBehaviour {
 
     [Inject]
     public void Construct(SignalBus signalBus, ResourceLoader resourceLoader, PlayerMainController.Factory playerFactory, PlayerSpawnPosition playerSpawnPosition) {
+        
         _signalBus = signalBus;
+        _signalBus.Subscribe<EnemyKilledSignal>(x => CurrentScore = CurrentScore + x.Points);
+
         _resourceLoader = resourceLoader;
 
         _playerFactory = playerFactory;
@@ -48,8 +60,9 @@ public class GameManager : MonoBehaviour {
 
 
         _currentLevel = _resourceLoader.GetLevel($"level{_currentLevelNumber}");
-        _lastLevelSequenceID = 0;
-        
+        _currentLevelSequenceID = 0;
+
+        CurrentScore = 0;
 
         _gameTimeCoroutine = StartCoroutine(CountGameTime());
 
@@ -69,10 +82,15 @@ public class GameManager : MonoBehaviour {
     }
 
     private void UpdateSequences() {
-        if (LastLevelSequence.Time > _gameTime) {
-            LastLevelSequence.Reset();
-            _activeSequences.Add(LastLevelSequence);
-            _lastLevelSequenceID++;
+        if (_currentLevelSequenceID >= _currentLevel.SequenceList.Count) { return; }
+
+        LevelResource.Sequence currentLevelSequence = _currentLevel.SequenceList[_currentLevelSequenceID];
+
+        if (currentLevelSequence.Time < _gameTime) {
+            currentLevelSequence.Reset();
+            _activeSequences.Add(currentLevelSequence);
+            
+            _currentLevelSequenceID++;
         }
     }
 
@@ -86,7 +104,8 @@ public class GameManager : MonoBehaviour {
             }
 
             if (Time.time - sequence._cooldown > sequence.Delay) {
-                // Spawn here
+                _enemyManager.SpawnEnemy((EnemyMainController.TypeEnum)sequence.EnemyType, sequence.MovementPatternName);
+
                 sequence._cooldown = Time.time;
                 sequence._spawned++;
             }

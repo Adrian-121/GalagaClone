@@ -11,15 +11,19 @@ public class EnemyManager : MonoBehaviour {
     private List<MovementPatternResource> _movementPatternList;
     private Dictionary<string, MovementPatternResource> _nameToMovementPattern = new Dictionary<string, MovementPatternResource>();
 
-    private List<EnemyMainController> _enemyList;
+    private List<EnemyMainController> _enemyList = new List<EnemyMainController>();
+    private Dictionary<int, int> _enemyTypeTotal;
+
+    private Dictionary<EnemySpawnPoint.TypeEnum, Transform> _spawnPointsList = new Dictionary<EnemySpawnPoint.TypeEnum, Transform>();
 
     [Inject]
     public void Construct(EnemyMainController.Factory enemyFactory, ResourceLoader resourceLoader) {
         _enemyFactory = enemyFactory;
 
         _formation = GetComponentInChildren<EnemyFormation>();
-        FormationResource formationResource = resourceLoader.GetFormation("default_formation");
-        _formation.Initialize(formationResource);
+        FormationPatternResource formationResource = resourceLoader.GetFormation("default_formation");
+        _formation.Initialize(formationResource, resourceLoader.GameConfig.FormationConfigList);
+        _enemyTypeTotal = _formation.EnemyTypeTotal;
 
         _movementPatternList = resourceLoader.GetMovementPatterns();
         foreach (MovementPatternResource movementPattern in _movementPatternList) {
@@ -28,12 +32,23 @@ public class EnemyManager : MonoBehaviour {
 
         for (int i = 0; i < Constants.ENEMY_POOL_MAX; i++) {
             EnemyMainController newEnemy = _enemyFactory.Create();
+            
             newEnemy.Construct(_formation);
+            newEnemy.transform.SetParent(transform);
+
             _enemyList.Add(newEnemy);
+        }
+
+        EnemySpawnPoint[] spawnPoints = GetComponentsInChildren<EnemySpawnPoint>();
+        foreach (EnemySpawnPoint spawnPoint in spawnPoints) {
+            _spawnPointsList.Add(spawnPoint.Type, spawnPoint.transform);
         }
     }
     public void SpawnEnemy(EnemyMainController.TypeEnum type, string movementPatternName) {
         EnemyMainController enemyToUse = null;
+
+        if (_enemyTypeTotal[(int)type] <= 0) { return; }
+        if (!_nameToMovementPattern.ContainsKey(movementPatternName)) { return; }
 
         foreach (EnemyMainController enemy in _enemyList) {
             if (!enemy.IsAlive) {
@@ -44,6 +59,8 @@ public class EnemyManager : MonoBehaviour {
 
         if (enemyToUse == null) { return; }
 
-        enemyToUse.Initialize(type, _nameToMovementPattern[_nameToMovementPattern]);
+        MovementPatternResource movementPattern = _nameToMovementPattern[movementPatternName];
+        enemyToUse.Initialize(type, movementPattern, _spawnPointsList[(EnemySpawnPoint.TypeEnum)movementPattern.Spawner].position);
+        _enemyTypeTotal[(int)type]--;
     }
 }

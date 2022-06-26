@@ -9,11 +9,11 @@ public class PlayerMovement : MonoBehaviour {
 
     private PlayerInput _playerInput;
 
-    private void Awake() {
-        _playerInput = GetComponentInParent<PlayerInput>();
+    public void Construct(PlayerInput playerInput) {
+        _playerInput = playerInput;
     }
 
-    private void Update() {
+    public void OnUpdate() {
         Gamepad gamepad = Gamepad.current;
 
         Vector2 move = gamepad.leftStick.ReadValue();

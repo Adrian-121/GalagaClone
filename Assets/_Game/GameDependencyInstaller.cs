@@ -13,10 +13,8 @@ public class GameDependencyInstaller : MonoInstaller {
 
         Container.DeclareSignal<PlayerFireSignal>();
         Container.DeclareSignal<StartGameSignal>();
-        Container.DeclareSignal<HighscoresSignal>();
-        Container.DeclareSignal<HighscoreBackSignal>();
-        Container.DeclareSignal<EditorSignal>();
         Container.DeclareSignal<LevelChangedSignal>();
+        Container.DeclareSignal<PlayerObjectKilledSignal>();
         Container.DeclareSignal<PlayerKilledSignal>();
         Container.DeclareSignal<EnemyKilledSignal>();
         Container.DeclareSignal<GameTimeTickSignal>();
@@ -24,6 +22,8 @@ public class GameDependencyInstaller : MonoInstaller {
         Container.DeclareSignal<SoundMuteButtonSignal>();
         Container.DeclareSignal<SoundMuteStatusChangedSignal>();
         Container.DeclareSignal<UIButtonPressedSignal>();
+        Container.DeclareSignal<HighscoresProcessedSignal>();
+        Container.DeclareSignal<GameOverSignal>();
 
 
         Container.Bind<ProjectileManager>().FromInstance(FindObjectOfType<ProjectileManager>()).AsSingle().NonLazy();

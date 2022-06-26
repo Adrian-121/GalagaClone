@@ -9,8 +9,7 @@ public abstract class BaseGameState : MonoBehaviour {
     public enum StateNameEnum {
         MAIN_MENU = 1,
         GAME = 2,
-        HIGHSCORES = 3,
-        GAME_OVER = 4
+        GAME_OVER = 3
     }
 
     [SerializeField] protected StateNameEnum _stateName;

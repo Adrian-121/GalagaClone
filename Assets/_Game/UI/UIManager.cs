@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -7,9 +8,6 @@ using Zenject;
 public class UIManager : MonoBehaviour {
 
     [SerializeField] private Button _startGameButton;
-    [SerializeField] private Button _highscoresButton;
-    [SerializeField] private Button _highscoresBackButton;
-    [SerializeField] private Button _editorGameButton;
 
     [SerializeField] private Button _playerFireButton;
 
@@ -18,6 +16,8 @@ public class UIManager : MonoBehaviour {
 
     [SerializeField] private Text _highscoreText;
     [SerializeField] private Text _currentScoreText;
+
+    [SerializeField] private Text _hallOfFameText;
 
     [SerializeField] private List<Image> _playerLivesImageList;
 
@@ -35,11 +35,9 @@ public class UIManager : MonoBehaviour {
         _signalBus.Subscribe<GameTimeTickSignal>(x => _gameTime.text = x.GameTime.ToString());
         _signalBus.Subscribe<CurrentScoreSignal>(x => _currentScoreText.text = x.Score.ToString());
         _signalBus.Subscribe<SoundMuteStatusChangedSignal>(x => _muteButtonImage.fillAmount = x.IsMuted ? 1 : 0.6f);
+        _signalBus.Subscribe<HighscoresProcessedSignal>(x => OnHighscoresReceived(x.Highscores));
 
         if (_startGameButton != null) { _startGameButton.onClick.AddListener(OnStartGamePressed); }
-        if (_highscoresButton != null) { _highscoresButton.onClick.AddListener(OnHighscorePressed); }
-        if (_highscoresButton != null) { _highscoresBackButton.onClick.AddListener(OnHighscoreBackPressed); }
-        if (_editorGameButton != null) { _editorGameButton.onClick.AddListener(OnEditorPressed); }
         if (_playerFireButton != null) { _playerFireButton.onClick.AddListener(OnPlayerFirePressed); }
         if (_muteButton != null) { _muteButton.onClick.AddListener(OnMuteButtonPressed); };
 
@@ -50,28 +48,32 @@ public class UIManager : MonoBehaviour {
         _signalBus.Fire<StartGameSignal>();
         _signalBus.Fire<UIButtonPressedSignal>();
     }
-
-    public void OnHighscorePressed() {
-        _signalBus.Fire<HighscoresSignal>();
-        _signalBus.Fire<UIButtonPressedSignal>();
-    }
-
-    public void OnHighscoreBackPressed() {
-        _signalBus.Fire<HighscoreBackSignal>();
-        _signalBus.Fire<UIButtonPressedSignal>();
-    }
-
-    public void OnEditorPressed() {
-        _signalBus.Fire<EditorSignal>();
-        _signalBus.Fire<UIButtonPressedSignal>();
-    }
-
+  
     public void OnPlayerFirePressed() {
         _signalBus.Fire<PlayerFireSignal>();
     }
 
     public void OnMuteButtonPressed() {
         _signalBus.Fire<SoundMuteButtonSignal>();
+    }
+
+    public void OnHighscoresReceived(HighscoreResource highscores) {
+        StringBuilder hallOfFame = new StringBuilder();
+
+        List<HighscoreResource.Highscore> highscoreList = highscores.HighscoreList;
+
+        for (int i = 0; i < highscoreList.Count; i++) {
+            HighscoreResource.Highscore highscore = highscoreList[i];
+            hallOfFame.Append("[");
+            hallOfFame.Append(i);
+            hallOfFame.Append("] - ");
+            hallOfFame.Append(highscore.Name);
+            hallOfFame.Append(" / ");
+            hallOfFame.Append(highscore.Score);
+            hallOfFame.Append("\n");
+        }
+
+        _hallOfFameText.text = hallOfFame.ToString();
     }
 
     private void UpdatePlayerLives(int playerLivesLeft) {

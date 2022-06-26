@@ -1,0 +1,1 @@
+{"Patterns":[{"Name":"p1","Spawner":1,"SequenceList":[{"SpeedMultiplier":6.0,"TimeInSeconds":4.0,"AngleInDegrees":5.0},{"SpeedMultiplier":3.0,"TimeInSeconds":1.0,"AngleInDegrees":2.0}]}]}

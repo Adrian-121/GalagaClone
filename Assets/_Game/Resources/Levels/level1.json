@@ -4,9 +4,9 @@
 	[
 		{
 			"Time": 1,
-			"EnemyType": 3,
+			"EnemyType": 1,
 			"Delay": 0.25,
-			"MovementPatternName": "p1",
+			"MovementPatternName": "player_killer",
 			"SpawnCount": 5
 		}
 	]

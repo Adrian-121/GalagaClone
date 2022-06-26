@@ -14,16 +14,18 @@ public class PlayerFire : MonoBehaviour {
 
     public void Construct(SignalBus signalBus, PlayerMainController player, ProjectileManager projectileManager, SoundManager soundManager) {
         _signalBus = signalBus;
-        _signalBus.Subscribe<PlayerFireSignal>(OnPlayerFire);
-
         _player = player;
 
         _projectileManager = projectileManager;
         _soundManager = soundManager;
     }
 
-    public void OnDestroy() {
-        _signalBus.Unsubscribe<PlayerFireSignal>(OnPlayerFire);
+    public void Initialize() {
+        _signalBus.Subscribe<PlayerFireSignal>(OnPlayerFire);
+    }
+
+    public void Deinitialize() {
+        _signalBus.TryUnsubscribe<PlayerFireSignal>(OnPlayerFire);
     }
 
     private void OnPlayerFire() {

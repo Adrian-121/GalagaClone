@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface ITakeHit {
 
-    void TakeHit(GameObject from);
+    void TakeHit(GameObject from, bool fullDamage);
 
 }

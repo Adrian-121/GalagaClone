@@ -54,9 +54,9 @@ public class Projectile : MonoBehaviour {
         ITakeHit takeHit = withObject.transform.GetComponentInParent<ITakeHit>();
 
         if (takeHit == null) { return; }
-        if (withObject == _parent) { return; }
+        if (withObject.transform.parent.gameObject == _parent) { return; }
 
-        takeHit.TakeHit(gameObject);
+        takeHit.TakeHit(gameObject, false);
         DestroyThis();
     }
 

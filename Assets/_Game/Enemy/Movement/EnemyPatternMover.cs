@@ -25,8 +25,7 @@ public class EnemyPatternMover : BaseEnemyMover {
         _isFinished = false;
     }
 
-    public override void OnEnter() {
-
+    public override void OnEnter() {        
     }
 
     public override void OnExit() {

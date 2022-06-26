@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ResourceLoader : MonoBehaviour {
@@ -6,26 +5,22 @@ public class ResourceLoader : MonoBehaviour {
     [SerializeField] private GameConfig _gameConfig;
     public GameConfig GameConfig => _gameConfig;
 
-    private const string MOVEMENT_PATTERNS = "movement_patterns";
-    private const string FORMATIONS_FOLDER = "Formations/";
-    private const string LEVELS_FOLDER = "Levels/";
-
     public FormationPatternResource GetFormation(string name) {
-        TextAsset rawResource = Resources.Load(FORMATIONS_FOLDER + name) as TextAsset;
+        TextAsset rawResource = Resources.Load(Constants.FORMATIONS_FOLDER + name) as TextAsset;
         return ParseFormationResource(rawResource);
     }
 
-    public List<MovementPatternResource> GetMovementPatterns() {
-        TextAsset rawResource = Resources.Load(MOVEMENT_PATTERNS) as TextAsset;
+    public MovementPatternResource.MovementPatternContainer GetMovementPatterns() {
+        TextAsset rawResource = Resources.Load(Constants.MOVEMENT_PATTERNS) as TextAsset;
 
         MovementPatternResource.MovementPatternContainer resource = 
             JsonUtility.FromJson<MovementPatternResource.MovementPatternContainer>(rawResource.text);
 
-        return resource.Patterns;
+        return resource;
     }
 
     public LevelResource GetLevel(string levelName) {
-        TextAsset rawResource = Resources.Load(LEVELS_FOLDER + levelName) as TextAsset;
+        TextAsset rawResource = Resources.Load(Constants.LEVELS_FOLDER + levelName) as TextAsset;
         LevelResource resource = JsonUtility.FromJson<LevelResource>(rawResource.text);
 
         return resource;

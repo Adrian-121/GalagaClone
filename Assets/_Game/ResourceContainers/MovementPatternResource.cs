@@ -17,6 +17,7 @@ public class MovementPatternResource {
 
     public string Name;
     public int Spawner;
-    public List<Sequence> SequenceList;
+    public float InitialRotation;
+    public List<Sequence> SequenceList = new List<Sequence>();
 
 }

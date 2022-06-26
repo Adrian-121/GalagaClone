@@ -22,6 +22,7 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
     private EnemyMovement _movement;
     private SpriteRenderer _renderer;
     private Animator _animator;
+    private ProjectileCollisionDetector _collisionDetector;
 
     private GameConfig.EnemyConfig _config;
     public bool IsAlive { get; private set; }
@@ -33,14 +34,17 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
         _renderer = GetComponentInChildren<SpriteRenderer>();
         _animator = GetComponentInChildren<Animator>();
 
+        _collisionDetector = GetComponentInChildren<ProjectileCollisionDetector>();
+        _collisionDetector.OnHit.AddListener(OnCollided);
+
         Deinitialize();
     }
 
-    public void Initialize(TypeEnum type, MovementPatternResource movementPattern, Vector3 startPosition) {
+    public void Initialize(TypeEnum type, MovementPatternResource movementPattern, Vector3 startPosition, float initialRotation) {
         _renderer.gameObject.SetActive(true);
         Configure(type);
 
-        _movement.Initialize(movementPattern, _config, startPosition);
+        _movement.Initialize(movementPattern, _config, startPosition, initialRotation);
 
         IsAlive = true;
     }
@@ -66,8 +70,8 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
         _animator.SetBool(Constants.ANIM_IS_FULL_HP, true);
     }
 
-    public void TakeHit(GameObject from) {
-        _hp--;
+    public void TakeHit(GameObject from, bool fullDamage) {
+        _hp = fullDamage ? 0 : _hp - 1;
         _animator.SetBool(Constants.ANIM_IS_FULL_HP, false);
 
         if (_hp <= 0) {
@@ -84,6 +88,17 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
             Deinitialize(true);
         }
     }
+
+    private void OnCollided(GameObject withObject) {
+        ITakeHit takeHit = withObject.transform.GetComponentInParent<ITakeHit>();
+
+        if (takeHit == null) { return; }
+        if (withObject.transform.parent.gameObject == gameObject) { return; }
+
+        takeHit.TakeHit(gameObject, false);
+        TakeHit(withObject, true);
+    }
+
 
     public class Factory : PlaceholderFactory<EnemyMainController> { }
 

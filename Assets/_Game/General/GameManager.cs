@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
     private int _gameTime;
     private int _currentLevelSequenceID;
 
+    private int _playerLives;
+
     private int _currentScore;
     private int CurrentScore {
         get { return _currentScore; }
@@ -29,7 +31,6 @@ public class GameManager : MonoBehaviour {
             _signalBus.Fire(new CurrentScoreSignal() { Score = _currentScore });
         }
     }
-    
 
     private Coroutine _gameTimeCoroutine;
 
@@ -39,9 +40,18 @@ public class GameManager : MonoBehaviour {
 
     [Inject]
     public void Construct(SignalBus signalBus, ResourceLoader resourceLoader, PlayerMainController.Factory playerFactory, PlayerSpawnPosition playerSpawnPosition) {
-        
         _signalBus = signalBus;
         _signalBus.Subscribe<EnemyKilledSignal>(x => CurrentScore = CurrentScore + x.Points);
+        _signalBus.Subscribe<PlayerObjectKilledSignal>(x => {
+            _playerLives--;
+
+            if (_playerLives <= 0) {
+                _signalBus.Fire(new GameOverSignal() { Highscore = _currentScore });
+                StopGame();
+            }
+
+            _signalBus.Fire(new PlayerKilledSignal() { PlayerLivesLeft = _playerLives });
+        });
 
         _resourceLoader = resourceLoader;
 
@@ -56,13 +66,13 @@ public class GameManager : MonoBehaviour {
         _isGameStarted = true;
 
         _player = _playerFactory.Create();
-        _player.transform.position = _playerSpawnPosition.transform.position;
-
+        _player.Initialize(_playerSpawnPosition.transform.position);
 
         _currentLevel = _resourceLoader.GetLevel($"level{_currentLevelNumber}");
         _currentLevelSequenceID = 0;
 
         CurrentScore = 0;
+        _playerLives = _resourceLoader.GameConfig.PlayerLives;
 
         _gameTimeCoroutine = StartCoroutine(CountGameTime());
 
@@ -72,6 +82,8 @@ public class GameManager : MonoBehaviour {
     public void StopGame() {
         _isGameStarted = false;
 
+        _player.Deinitialize();
+        _enemyManager.ClearAll();
     }
 
     private void Update() {

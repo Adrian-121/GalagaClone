@@ -17,14 +17,20 @@ public class EnemyFormationMover : BaseEnemyMover {
     }
 
     public override void OnEnter() {
+
+        if (_enemyFormation == null) { return; }
         _formationSlot = _enemyFormation.AssignEnemy(_enemy);
+        _enemy.transform.rotation = Quaternion.identity;
     }
 
     public override void OnExit() {
+        if (_enemyFormation == null) { return; }
         _enemyFormation.RemoveEnemy(_enemy);
     }
 
     public override void OnUpdate() {
+        if (_enemyFormation == null) { return; }
+
         if (!_isInFormation) {
             GotoFormationPosition();
         }

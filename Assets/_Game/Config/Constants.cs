@@ -9,4 +9,10 @@ public class Constants {
     public static int ENEMY_POOL_MAX = 35;
     public static int PROJECTILE_POOL_MAX = 50;
     public static int VFX_POOL_MAX = 10;
+
+    public const string MOVEMENT_PATTERNS = "movement_patterns";
+    public const string FORMATIONS_FOLDER = "Formations/";
+    public const string LEVELS_FOLDER = "Levels/";
+
+    public const string HIGHSCORES_PREFS = "highscores";
 }

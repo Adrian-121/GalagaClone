@@ -24,8 +24,9 @@ public class EnemyMovement : MonoBehaviour {
         _lungeMover.OnLungeFinished.AddListener(OnLungeFinished);
     }
 
-    public void Initialize(MovementPatternResource movementPattern, GameConfig.EnemyConfig config, Vector3 startPosition) {
+    public void Initialize(MovementPatternResource movementPattern, GameConfig.EnemyConfig config, Vector3 startPosition, float initialRotation) {
         _enemy.transform.position = startPosition;
+        _enemy.transform.Rotate(Vector3.forward, initialRotation);
 
         _patternMover.Initialize(movementPattern, config);
         _formationMover.Initialize(config);

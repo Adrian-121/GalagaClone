@@ -1,5 +1,4 @@
 using UnityEngine;
-using Zenject;
 
 public class MainMenuState : BaseGameState {
 
@@ -26,9 +25,7 @@ public class MainMenuState : BaseGameState {
     }
 
     private void ProcessHighScores() {
-        string rawHighscores = PlayerPrefs.GetString(Constants.HIGHSCORES_PREFS, JsonUtility.ToJson(new HighscoreResource()));
-        HighscoreResource highscores = JsonUtility.FromJson<HighscoreResource>(rawHighscores);
-
+        HighscoreResource highscores = _resourceLoader.GetHighscores();
         _signalBus.Fire(new HighscoresProcessedSignal() { Highscores = highscores });
     }
 }

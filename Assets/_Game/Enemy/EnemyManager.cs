@@ -23,9 +23,10 @@ public class EnemyManager : MonoBehaviour {
         _formation = GetComponentInChildren<EnemyFormation>();
         FormationPatternResource formationResource = resourceLoader.GetFormation("default_formation");
         _formation.Initialize(formationResource, resourceLoader.GameConfig.FormationConfigList);
-        _enemyTypeTotal = _formation.EnemyTypeTotal;
+        
 
         _movementPatternList = resourceLoader.GetMovementPatterns().Patterns;
+
         foreach (MovementPatternResource movementPattern in _movementPatternList) {
             _nameToMovementPattern.Add(movementPattern.Name, movementPattern);
         }
@@ -44,6 +45,17 @@ public class EnemyManager : MonoBehaviour {
             _spawnPointsList.Add(spawnPoint.Type, spawnPoint.transform);
         }
     }
+
+    public void Initialize() {
+        _enemyTypeTotal = new Dictionary<int, int>(_formation.EnemyTypeTotal);
+    }
+
+    public void Deinitialize() {
+        foreach (EnemyMainController enemy in _enemyList) {
+            enemy.Deinitialize();
+        }
+    }
+
     public void SpawnEnemy(EnemyMainController.TypeEnum type, string movementPatternName) {
         EnemyMainController enemyToUse = null;
 
@@ -67,9 +79,5 @@ public class EnemyManager : MonoBehaviour {
         _enemyTypeTotal[(int)type]--;
     }
 
-    public void ClearAll() {
-        foreach (EnemyMainController enemy in _enemyList) {
-            enemy.Deinitialize();
-        }
-    }
+    
 }

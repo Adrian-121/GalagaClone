@@ -26,6 +26,9 @@ public class EnemyMovement : MonoBehaviour {
 
     public void Initialize(MovementPatternResource movementPattern, GameConfig.EnemyConfig config, Vector3 startPosition, float initialRotation) {
         _enemy.transform.position = startPosition;
+        
+        // Set the rotation, but reset it initially.
+        _enemy.transform.rotation = Quaternion.identity;
         _enemy.transform.Rotate(Vector3.forward, initialRotation);
 
         _patternMover.Initialize(movementPattern, config);

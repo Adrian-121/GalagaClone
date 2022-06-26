@@ -23,10 +23,19 @@ public class GameManager : MonoBehaviour {
 
     private int _playerLives;
 
-    private int _currentScore;
-    private int CurrentScore {
-        get { return _currentScore; }
+    private int _topScore;
+    public int TopScore {
+        get { return _topScore; }
         set {
+            _topScore = value;
+            _signalBus.Fire(new HighscoreInGameChangeSignal() { NewScore = _topScore });
+        }
+    }
+
+    private int _currentScore;
+    public int CurrentScore {
+        get { return _currentScore; }
+        private set {
             _currentScore = value;
             _signalBus.Fire(new CurrentScoreSignal() { Score = _currentScore });
         }
@@ -41,11 +50,19 @@ public class GameManager : MonoBehaviour {
     [Inject]
     public void Construct(SignalBus signalBus, ResourceLoader resourceLoader, PlayerMainController.Factory playerFactory, PlayerSpawnPosition playerSpawnPosition) {
         _signalBus = signalBus;
-        _signalBus.Subscribe<EnemyKilledSignal>(x => CurrentScore = CurrentScore + x.Points);
+        
+        _signalBus.Subscribe<EnemyKilledSignal>(x => {
+            CurrentScore = CurrentScore + x.Points;
+
+            if (CurrentScore > TopScore) {
+                TopScore = CurrentScore;
+            }
+        });
+
         _signalBus.Subscribe<PlayerObjectKilledSignal>(x => {
             _playerLives--;
 
-            if (_playerLives <= 0) {
+            if (_playerLives <= 0 && _isGameStarted) {
                 _signalBus.Fire(new GameOverSignal() { Highscore = _currentScore });
                 StopGame();
             }
@@ -64,26 +81,35 @@ public class GameManager : MonoBehaviour {
 
     public void StartGame() {
         _isGameStarted = true;
-
-        _player = _playerFactory.Create();
+        
+        if (_player == null) {
+            _player = _playerFactory.Create();
+        }
+        
         _player.Initialize(_playerSpawnPosition.transform.position);
 
         _currentLevel = _resourceLoader.GetLevel($"level{_currentLevelNumber}");
         _currentLevelSequenceID = 0;
+        _gameTime = 0;
 
         CurrentScore = 0;
+        TopScore = _resourceLoader.GetHighscores().GetTop();
+
         _playerLives = _resourceLoader.GameConfig.PlayerLives;
+
+
+        _enemyManager.Initialize();
 
         _gameTimeCoroutine = StartCoroutine(CountGameTime());
 
-        _signalBus.Fire(new LevelChangedSignal() { LevelName = _currentLevel.Name });
+        _signalBus.Fire(new LevelChangedSignal() { LevelName = _currentLevel.Name });        
     }
 
     public void StopGame() {
         _isGameStarted = false;
 
         _player.Deinitialize();
-        _enemyManager.ClearAll();
+        _enemyManager.Deinitialize();
     }
 
     private void Update() {

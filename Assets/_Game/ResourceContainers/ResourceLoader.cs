@@ -26,6 +26,16 @@ public class ResourceLoader : MonoBehaviour {
         return resource;
     }
 
+    public HighscoreResource GetHighscores() {
+        string rawHighscores = PlayerPrefs.GetString(Constants.HIGHSCORES_PREFS, JsonUtility.ToJson(new HighscoreResource()));
+        HighscoreResource highscores = JsonUtility.FromJson<HighscoreResource>(rawHighscores);
+        return highscores;
+    }
+
+    public void SetHighscores(HighscoreResource highscores) {
+        PlayerPrefs.SetString(Constants.HIGHSCORES_PREFS, JsonUtility.ToJson(highscores));
+    }
+
     private FormationPatternResource ParseFormationResource(TextAsset textFile) {
         int maxRows = int.MinValue;
         int maxColumns = int.MinValue;

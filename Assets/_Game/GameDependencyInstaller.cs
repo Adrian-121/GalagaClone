@@ -24,7 +24,8 @@ public class GameDependencyInstaller : MonoInstaller {
         Container.DeclareSignal<UIButtonPressedSignal>();
         Container.DeclareSignal<HighscoresProcessedSignal>();
         Container.DeclareSignal<GameOverSignal>();
-
+        Container.DeclareSignal<GameOverBackButtonSignal>();
+        Container.DeclareSignal<HighscoreInGameChangeSignal>();
 
         Container.Bind<ProjectileManager>().FromInstance(FindObjectOfType<ProjectileManager>()).AsSingle().NonLazy();
 

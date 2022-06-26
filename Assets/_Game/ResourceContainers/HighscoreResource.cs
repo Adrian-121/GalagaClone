@@ -11,32 +11,51 @@ public class HighscoreResource {
         public string Name;
     }
 
-    private List<Highscore> _highscoreList = new List<Highscore>();
-    public List<Highscore> HighscoreList {
-        get {
-            _highscoreList.Sort(CompareHighscores);
-            return _highscoreList;
-        }
-    }
+    public List<Highscore> HighscoreList = new List<Highscore>();
 
     public void AddHighscore(Highscore newScore) {
+        // If the top 3 is not filled, fill here.
+        if (HighscoreList.Count < MAX_HIGHSCORES) {
+            HighscoreList.Add(newScore);
+            return;
+        }
+
+        // If it's filled, check to replace the lowest score, if any.
         int minHighscore = int.MaxValue;
         int minHighscoreIndex = -1;
         
-        for (int i = 0; i < _highscoreList.Count; i++) {
-            if (_highscoreList[i].Score < minHighscore) {
-                minHighscore = _highscoreList[i].Score;
+        for (int i = 0; i < HighscoreList.Count; i++) {
+            if (HighscoreList[i].Score < minHighscore) {
+                minHighscore = HighscoreList[i].Score;
                 minHighscoreIndex = i;
             }
         }
 
+        // Replace the minimum score with this one
         if (newScore.Score > minHighscore && minHighscoreIndex >= 0) {
-            _highscoreList[minHighscoreIndex].Score = newScore.Score;
-            _highscoreList[minHighscoreIndex].Name = newScore.Name;
+            HighscoreList[minHighscoreIndex].Score = newScore.Score;
+            HighscoreList[minHighscoreIndex].Name = newScore.Name;
         }
     }
 
+    public int GetTop() {
+        int max = 0;
+
+        for (int i = 0; i < HighscoreList.Count; i++) {
+            if (HighscoreList[i].Score > max) {
+                max = HighscoreList[i].Score;
+            }
+        }
+
+        return max;
+    }
+
+    public List<Highscore> GetHighscoreList() {
+        HighscoreList.Sort(CompareHighscores);
+        return HighscoreList;
+    }
+
     private int CompareHighscores(Highscore x, Highscore y) {
-        return x.Score - y.Score;
+        return y.Score - x.Score;
     }
 }

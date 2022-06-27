@@ -5,6 +5,7 @@ using Zenject;
 public class EnemyManager : MonoBehaviour, IGameControlled {
 
     private EnemyMainController.Factory _enemyFactory;
+    private ResourceLoader _resourceLoader;
 
     private EnemyFormation _formation;
 
@@ -19,8 +20,6 @@ public class EnemyManager : MonoBehaviour, IGameControlled {
 
     private IEnemyTarget _target;
 
-    private ResourceLoader _resourceLoader;
-
     [Inject]
     public void Construct(EnemyMainController.Factory enemyFactory, ResourceLoader resourceLoader, SignalBus signalBus) {
         _enemyFactory = enemyFactory;
@@ -29,11 +28,14 @@ public class EnemyManager : MonoBehaviour, IGameControlled {
         _formation = GetComponentInChildren<EnemyFormation>();
         _formation.Construct(_resourceLoader.GameConfig.FormationConfigList);
 
-        _movementPatternList = resourceLoader.GetMovementPatterns().Patterns;
+        // Movement Patterns.
 
+        _movementPatternList = resourceLoader.GetMovementPatterns().Patterns;
         foreach (MovementPatternResource movementPattern in _movementPatternList) {
             _nameToMovementPattern.Add(movementPattern.Name, movementPattern);
         }
+
+        // Populating the Enemy Pool.
 
         for (int i = 0; i < Constants.ENEMY_POOL_MAX; i++) {
             EnemyMainController newEnemy = _enemyFactory.Create();
@@ -44,10 +46,14 @@ public class EnemyManager : MonoBehaviour, IGameControlled {
             _enemyList.Add(newEnemy);
         }
 
+        // Gathering the Spawn Points.
+
         EnemySpawnPoint[] spawnPoints = GetComponentsInChildren<EnemySpawnPoint>();
         foreach (EnemySpawnPoint spawnPoint in spawnPoints) {
             _spawnPointsList.Add(spawnPoint.Type, spawnPoint.transform);
         }
+
+        // Subscribe to events.
 
         signalBus.Subscribe<EnemyKilledSignal>(x => {
             _totalEnemiesToDestroy--;
@@ -83,12 +89,20 @@ public class EnemyManager : MonoBehaviour, IGameControlled {
         }
     }
 
-    public void SpawnEnemy(EnemyMainController.TypeEnum type, string movementPatternName) {
+    /// <summary>
+    /// Tries to spawn a new enemy, if the formation is not filled yet.
+    /// </summary>
+    public void TrySpawnEnemy(EnemyMainController.TypeEnum type, string movementPatternName) {
         EnemyMainController enemyToUse = null;
 
+        // Check if formation filled.
         if (_enemyTypeTotal[(int)type] <= 0) { return; }
-        if (!_nameToMovementPattern.ContainsKey(movementPatternName)) { return; }
 
+        // Check if there a movement pattern with the corresponding name.
+        if (!_nameToMovementPattern.ContainsKey(movementPatternName)) { return; }
+        MovementPatternResource movementPattern = _nameToMovementPattern[movementPatternName];
+
+        // Get a fresh enemy from the pool.
         foreach (EnemyMainController enemy in _enemyList) {
             if (!enemy.IsAlive) {
                 enemyToUse = enemy;
@@ -98,12 +112,13 @@ public class EnemyManager : MonoBehaviour, IGameControlled {
 
         if (enemyToUse == null) { return; }
 
-        MovementPatternResource movementPattern = _nameToMovementPattern[movementPatternName];
+        // Initialize the enemy.
         enemyToUse.Initialize(type, movementPattern, 
             _spawnPointsList[(EnemySpawnPoint.TypeEnum)movementPattern.Spawner].position,
             movementPattern.InitialRotation,
             _target);
 
+        // Counting down the remaining enemies for this type.
         _enemyTypeTotal[(int)type]--;
     }
 }

@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
             }
 
             if (Time.time - sequence._cooldown > sequence.Delay) {
-                _enemyManager.SpawnEnemy((EnemyMainController.TypeEnum)sequence.EnemyType, sequence.MovementPatternName);
+                _enemyManager.TrySpawnEnemy((EnemyMainController.TypeEnum)sequence.EnemyType, sequence.MovementPatternName);
 
                 sequence._cooldown = Time.time;
                 sequence._spawned++;

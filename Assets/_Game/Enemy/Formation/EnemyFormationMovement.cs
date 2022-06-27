@@ -107,8 +107,8 @@ public class EnemyFormationMovement : MonoBehaviour {
             _directionOffset = 2.54f;
             _direction *= -1;
         }
-        else if (_directionOffset < 1.5f) {
-            _directionOffset = 1.51f;
+        else if (_directionOffset < 2.0f) {
+            _directionOffset = 2.01f;
             _direction *= -1;
         }
     }

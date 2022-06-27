@@ -6,7 +6,7 @@ public class Constants {
 
     public static string ANIM_EXPLOSION_TYPE = "ExplosionType";
 
-    public static int ENEMY_POOL_MAX = 35;
+    public static int ENEMY_POOL_MAX = 100;
     public static int PROJECTILE_POOL_MAX = 50;
     public static int VFX_POOL_MAX = 10;
 

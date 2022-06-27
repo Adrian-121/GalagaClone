@@ -13,11 +13,14 @@ public class EnemyManager : MonoBehaviour {
 
     private List<EnemyMainController> _enemyList = new List<EnemyMainController>();
     private Dictionary<int, int> _enemyTypeTotal;
+    private int _totalEnemiesToDestroy;
 
     private Dictionary<EnemySpawnPoint.TypeEnum, Transform> _spawnPointsList = new Dictionary<EnemySpawnPoint.TypeEnum, Transform>();
 
+    private IEnemyTarget _target;
+
     [Inject]
-    public void Construct(EnemyMainController.Factory enemyFactory, ResourceLoader resourceLoader) {
+    public void Construct(EnemyMainController.Factory enemyFactory, ResourceLoader resourceLoader, SignalBus _signalBus) {
         _enemyFactory = enemyFactory;
 
         _formation = GetComponentInChildren<EnemyFormation>();
@@ -44,10 +47,20 @@ public class EnemyManager : MonoBehaviour {
         foreach (EnemySpawnPoint spawnPoint in spawnPoints) {
             _spawnPointsList.Add(spawnPoint.Type, spawnPoint.transform);
         }
+
+        _signalBus.Subscribe<EnemyKilledSignal>(x => {
+            _totalEnemiesToDestroy--;
+            
+            if (_totalEnemiesToDestroy <= 0) {
+                _signalBus.Fire<LevelClearedSignal>();
+            }
+        });
     }
 
-    public void Initialize() {
+    public void Initialize(IEnemyTarget target) {
         _enemyTypeTotal = new Dictionary<int, int>(_formation.EnemyTypeTotal);
+        _totalEnemiesToDestroy = _formation.TotalEnemies;
+        _target = target;
     }
 
     public void Deinitialize() {
@@ -74,10 +87,9 @@ public class EnemyManager : MonoBehaviour {
         MovementPatternResource movementPattern = _nameToMovementPattern[movementPatternName];
         enemyToUse.Initialize(type, movementPattern, 
             _spawnPointsList[(EnemySpawnPoint.TypeEnum)movementPattern.Spawner].position,
-            movementPattern.InitialRotation);
+            movementPattern.InitialRotation,
+            _target);
 
         _enemyTypeTotal[(int)type]--;
     }
-
-    
 }

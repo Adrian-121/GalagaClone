@@ -6,8 +6,44 @@
 			"Time": 1,
 			"EnemyType": 1,
 			"Delay": 0.25,
-			"MovementPatternName": "player_killer",
-			"SpawnCount": 5
+			"MovementPatternName": "galagaONE_left",
+			"SpawnCount": 50
+		},
+		{
+			"Time": 1,
+			"EnemyType": 1,
+			"Delay": 0.25,
+			"MovementPatternName": "galagaONE_right",
+			"SpawnCount": 50
+		},
+		{
+			"Time": 10,
+			"EnemyType": 2,
+			"Delay": 0.25,
+			"MovementPatternName": "galagaTWO_left",
+			"SpawnCount": 50
+		},
+		{
+			"Time": 15,
+			"EnemyType": 2,
+			"Delay": 0.25,
+			"MovementPatternName": "galagaTWO_right",
+			"SpawnCount": 50
+		},
+		{
+			"Time": 25,
+			"EnemyType": 3,
+			"Delay": 0.25,
+			"MovementPatternName": "galagaONE_left",
+			"SpawnCount": 2
+		},
+		{
+			"Time": 30,
+			"EnemyType": 3,
+			"Delay": 0.25,
+			"MovementPatternName": "galagaONE_right",
+			"SpawnCount": 2
 		}
+
 	]
 }

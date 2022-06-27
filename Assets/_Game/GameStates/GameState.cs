@@ -8,10 +8,10 @@ public class GameState : BaseGameState {
     [SerializeField] private GameObject _inGameUI;
 
     public override void OnEnter() {
-        _inGameUI.SetActive(true);
-        _gameManager.StartGame();
-
         _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+        _inGameUI.SetActive(true);
+
+        _gameManager.StartGame();
     }
 
     public override void OnExit() {

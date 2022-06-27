@@ -38,7 +38,8 @@ public class EnemyMovement : MonoBehaviour {
     }
 
     public void Deinitialize() {
-
+        _patternMover.OnExit();
+        _formationMover.OnExit();
     }
 
     public void UpdateThis() {

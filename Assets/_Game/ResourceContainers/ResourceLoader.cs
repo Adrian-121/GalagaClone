@@ -21,8 +21,9 @@ public class ResourceLoader : MonoBehaviour {
 
     public LevelResource GetLevel(string levelName) {
         TextAsset rawResource = Resources.Load(Constants.LEVELS_FOLDER + levelName) as TextAsset;
-        LevelResource resource = JsonUtility.FromJson<LevelResource>(rawResource.text);
+        if (rawResource == null) { return null; }
 
+        LevelResource resource = JsonUtility.FromJson<LevelResource>(rawResource.text);
         return resource;
     }
 

@@ -44,6 +44,10 @@ public class GameConfig : ScriptableObject {
         [Header("Movement Patterns")]
         public float LungeChange;
         public float LungeCheckTime;
+
+        [Header("Projectile")]
+        public float ProjectileChance;
+        public float ProjectileCheckTimeout;
     }
 
     [System.Serializable]

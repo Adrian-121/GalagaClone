@@ -27,6 +27,7 @@ public class Projectile : MonoBehaviour {
     public void Initialize(Vector3 position, Quaternion rotation, GameObject parent) {
         transform.position = position;
         transform.rotation = rotation;
+        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
         _parent = parent;
 
         _renderer.gameObject.SetActive(true);
@@ -55,6 +56,7 @@ public class Projectile : MonoBehaviour {
 
         if (takeHit == null) { return; }
         if (withObject.transform.parent.gameObject == _parent) { return; }
+        if (withObject.layer == _parent.layer) { return; }
 
         takeHit.TakeHit(gameObject, false);
         DestroyThis();

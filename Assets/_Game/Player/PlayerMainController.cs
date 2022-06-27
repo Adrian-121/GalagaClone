@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-public class PlayerMainController : MonoBehaviour, ITakeHit {
+public class PlayerMainController : MonoBehaviour, ITakeHit, IEnemyTarget {
 
     private PlayerInput _playerInput;
     private SignalBus _signalBus;
@@ -66,6 +66,10 @@ public class PlayerMainController : MonoBehaviour, ITakeHit {
         if (!_isAlive) { return; }
 
         _playerMovement.OnUpdate();
+    }
+
+    public Vector3 GetPosition() {
+        return transform.position;
     }
 
     public class Factory : PlaceholderFactory<PlayerMainController> { }

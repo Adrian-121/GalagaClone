@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour {
             _signalBus.Fire(new PlayerKilledSignal() { PlayerLivesLeft = _playerLives });
         });
 
+        _signalBus.Subscribe<LevelClearedSignal>(x => {
+            _currentLevelNumber++;
+            LoadLevel();
+        });
+
         _resourceLoader = resourceLoader;
 
         _playerFactory = playerFactory;
@@ -88,21 +93,28 @@ public class GameManager : MonoBehaviour {
         
         _player.Initialize(_playerSpawnPosition.transform.position);
 
-        _currentLevel = _resourceLoader.GetLevel($"level{_currentLevelNumber}");
-        _currentLevelSequenceID = 0;
-        _gameTime = 0;
-
         CurrentScore = 0;
         TopScore = _resourceLoader.GetHighscores().GetTop();
 
         _playerLives = _resourceLoader.GameConfig.PlayerLives;
 
-
-        _enemyManager.Initialize();
-
         _gameTimeCoroutine = StartCoroutine(CountGameTime());
 
-        _signalBus.Fire(new LevelChangedSignal() { LevelName = _currentLevel.Name });        
+        LoadLevel();
+    }
+
+    private void LoadLevel() {
+        _currentLevelSequenceID = 0;
+        _gameTime = 0;
+        _currentLevel = _resourceLoader.GetLevel($"level{_currentLevelNumber}");
+
+        if (_currentLevel != null) {
+            _enemyManager.Initialize(_player);
+            _signalBus.Fire(new LevelChangedSignal() { LevelName = _currentLevel.Name });
+        }
+        else {
+            _signalBus.Fire(new GameOverSignal() { Highscore = _currentScore });
+        }        
     }
 
     public void StopGame() {
@@ -136,7 +148,7 @@ public class GameManager : MonoBehaviour {
         List<LevelResource.Sequence> sequenceScheduledForRemovalList = new List<LevelResource.Sequence>();
 
         foreach (LevelResource.Sequence sequence in _activeSequences) {
-            if (sequence._spawned >= sequence.SpawnCount) {
+            if (sequence._spawned > sequence.SpawnCount) {
                 sequenceScheduledForRemovalList.Add(sequence);
                 continue;
             }

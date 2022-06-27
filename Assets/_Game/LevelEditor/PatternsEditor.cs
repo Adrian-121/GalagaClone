@@ -88,7 +88,8 @@ public class PatternsEditor : MonoBehaviour {
         _currentEnemy.Construct(null);
         _currentEnemy.Initialize(EnemyMainController.TypeEnum.GRUNT, _currentPatternResource, 
             GetSpawnPointPosition((EnemySpawnPoint.TypeEnum)_currentPatternResource.Spawner),
-            _currentPatternResource.InitialRotation);
+            _currentPatternResource.InitialRotation,
+            null);
     }
 
     public void OnSavePatternPressed() {

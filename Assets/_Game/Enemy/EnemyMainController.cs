@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Zenject;
 
 public class EnemyMainController : MonoBehaviour, ITakeHit {
@@ -18,6 +17,7 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
     [Inject] private ResourceLoader _resourceLoader;
     [Inject] private VFXManager _vfxManager;
     [Inject] private SoundManager _soundManager;
+    [Inject] private ProjectileManager _projectileManager;
 
     private EnemyMovement _movement;
     private SpriteRenderer _renderer;
@@ -25,6 +25,10 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
     private ProjectileCollisionDetector _collisionDetector;
 
     private GameConfig.EnemyConfig _config;
+
+    private float _lastTimeSinceProjectileCheck;
+    private IEnemyTarget _target;
+
     public bool IsAlive { get; private set; }
 
     public void Construct(EnemyFormation formation) {
@@ -37,25 +41,41 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
         _collisionDetector = GetComponentInChildren<ProjectileCollisionDetector>();
         _collisionDetector.OnHit.AddListener(OnCollided);
 
-        Deinitialize();
+        _renderer.gameObject.SetActive(false);
+        IsAlive = false;
     }
 
-    public void Initialize(TypeEnum type, MovementPatternResource movementPattern, Vector3 startPosition, float initialRotation) {
+    public void Initialize(TypeEnum type, MovementPatternResource movementPattern, Vector3 startPosition, float initialRotation, IEnemyTarget target) {
         _renderer.gameObject.SetActive(true);
         Configure(type);
 
         _movement.Initialize(movementPattern, _config, startPosition, initialRotation);
+        _target = target;
 
         IsAlive = true;
     }
 
     public void Deinitialize(bool withBlast = false) {
-        IsAlive = false;
+        _movement.Deinitialize();
         _renderer.gameObject.SetActive(false);
+        IsAlive = false;
     }
 
     private void Update() {
         if (!IsAlive) { return; }
+
+        if (_target != null) {
+            if (Time.time - _lastTimeSinceProjectileCheck > _config.ProjectileCheckTimeout) {
+                _lastTimeSinceProjectileCheck = Time.time;
+                if (Random.Range(0, 100) < _config.ProjectileChance) {
+                    Vector3 vectorToTarget = _target.GetPosition() - transform.position;
+                    Vector3 rotatedVectorToTarget = Quaternion.Euler(0, 0, 0) * vectorToTarget;
+                    Quaternion targetRotation = Quaternion.LookRotation(forward: Vector3.forward, upwards: rotatedVectorToTarget);
+
+                    _projectileManager.Fire(transform.position, targetRotation, gameObject);
+                }
+            }
+        }        
 
         _movement.UpdateThis();
     }
@@ -98,7 +118,6 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
         takeHit.TakeHit(gameObject, false);
         TakeHit(withObject, true);
     }
-
 
     public class Factory : PlaceholderFactory<EnemyMainController> { }
 

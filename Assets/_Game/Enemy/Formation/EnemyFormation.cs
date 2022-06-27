@@ -21,6 +21,7 @@ public class EnemyFormation : MonoBehaviour {
     private List<EnemyMainController> _enemyList = new List<EnemyMainController>();
     private Dictionary<EnemyMainController, Vector2Int> _enemyToSlot = new Dictionary<EnemyMainController, Vector2Int>();
 
+    public int TotalEnemies { get; private set; }
     private Dictionary<int, int> _enemyTypeTotal = new Dictionary<int, int>();
     public Dictionary<int, int> EnemyTypeTotal => _enemyTypeTotal;
     
@@ -30,6 +31,8 @@ public class EnemyFormation : MonoBehaviour {
 
         _formation = new FormationSlot[formationPatternResource.MaxRows][];
         _formationResource = formationPatternResource;
+
+        TotalEnemies = 0;
 
         for (int i = 0; i < formationPatternResource.MaxRows; i++) {
             _formation[i] = new FormationSlot[formationPatternResource.MaxColumns];
@@ -49,6 +52,10 @@ public class EnemyFormation : MonoBehaviour {
                 else {
                     _enemyTypeTotal[_formation[i][j].Type]++;
                 }
+
+                if (_formation[i][j].Type != 0) {
+                    TotalEnemies++;
+                }                
             }
         } 
     }
@@ -78,6 +85,8 @@ public class EnemyFormation : MonoBehaviour {
     }
 
     public void RemoveEnemy(EnemyMainController enemy) {
+        if (!_enemyToSlot.ContainsKey(enemy)) { return; }
+
         Vector2Int slot = _enemyToSlot[enemy];
 
         _formation[slot.x][slot.y].IsCurrentlyUsed = false;
@@ -115,5 +124,4 @@ public class EnemyFormation : MonoBehaviour {
 
         _movement.UpdateMargins(leftLimit, rightLimit);
     }
-
 }

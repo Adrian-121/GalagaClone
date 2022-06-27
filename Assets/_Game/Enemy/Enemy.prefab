@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2790680274639884280}
   - component: {fileID: 2790680274639884279}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MovementSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 7726937518168830915}
   - component: {fileID: 56578628591445470}
   - component: {fileID: 5690192934567882659}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Render
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2790680276362529683}
   - component: {fileID: 5588027900740733414}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7607951264918829056}
   - component: {fileID: 3481450964642542702}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FormationMover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8207300651512434367}
   - component: {fileID: 4761079291167602274}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PatternMover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3752514463063530434}
   - component: {fileID: 8012445439445875364}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LungeMover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,7 +415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3686672074853660935}
   - component: {fileID: 8499053870903395413}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class ProjectileManager : MonoBehaviour {
+public class ProjectileManager : MonoBehaviour, IGameControlled {
 
     private Projectile.Factory _projectileFactory;
     private List<Projectile> _projectileList = new List<Projectile>();
@@ -20,6 +20,18 @@ public class ProjectileManager : MonoBehaviour {
         }
     }
 
+    public void Deinitialize() {
+        foreach (Projectile projectile in _projectileList) {
+            projectile.Deinitialize();
+        }
+    }
+
+    public void OnUpdate() {
+        foreach (Projectile projectile in _projectileList) {
+            projectile.OnUpdate();
+        }
+    }
+
     public void Fire(Vector3 position, Quaternion rotation, GameObject parent) {
         Projectile projectileToUse = null;
 
@@ -33,5 +45,5 @@ public class ProjectileManager : MonoBehaviour {
         if (projectileToUse != null) {
             projectileToUse.Initialize(position, rotation, parent);
         }
-    } 
+    }
 }

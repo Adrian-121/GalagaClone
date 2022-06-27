@@ -1,18 +1,12 @@
-using UnityEngine;
-using Zenject;
-
 public class GameOverState : BaseGameState {
 
-    [Inject] private GameManager _gameManager;
-    [SerializeField] private GameObject _gameOverUI;
-
     public override void OnEnter() {
-        _gameOverUI.SetActive(true);
+        _associatedUIWindow.SetActive(true);
         _signalBus.Subscribe<GameOverBackButtonSignal>(OnGameOverBackPressed);
     }
 
     public override void OnExit() {
-        _gameOverUI.SetActive(false);
+        _associatedUIWindow.SetActive(false);
         _signalBus.Unsubscribe<GameOverBackButtonSignal>(OnGameOverBackPressed);
     }
 

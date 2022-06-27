@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class EnemyManager : MonoBehaviour {
+public class EnemyManager : MonoBehaviour, IGameControlled {
 
     private EnemyMainController.Factory _enemyFactory;
 
@@ -19,14 +19,15 @@ public class EnemyManager : MonoBehaviour {
 
     private IEnemyTarget _target;
 
+    private ResourceLoader _resourceLoader;
+
     [Inject]
-    public void Construct(EnemyMainController.Factory enemyFactory, ResourceLoader resourceLoader, SignalBus _signalBus) {
+    public void Construct(EnemyMainController.Factory enemyFactory, ResourceLoader resourceLoader, SignalBus signalBus) {
         _enemyFactory = enemyFactory;
+        _resourceLoader = resourceLoader;
 
         _formation = GetComponentInChildren<EnemyFormation>();
-        FormationPatternResource formationResource = resourceLoader.GetFormation("default_formation");
-        _formation.Initialize(formationResource, resourceLoader.GameConfig.FormationConfigList);
-        
+        _formation.Construct(_resourceLoader.GameConfig.FormationConfigList);
 
         _movementPatternList = resourceLoader.GetMovementPatterns().Patterns;
 
@@ -48,17 +49,20 @@ public class EnemyManager : MonoBehaviour {
             _spawnPointsList.Add(spawnPoint.Type, spawnPoint.transform);
         }
 
-        _signalBus.Subscribe<EnemyKilledSignal>(x => {
+        signalBus.Subscribe<EnemyKilledSignal>(x => {
             _totalEnemiesToDestroy--;
             
             if (_totalEnemiesToDestroy <= 0) {
-                _signalBus.Fire<LevelClearedSignal>();
+                signalBus.Fire<LevelClearedSignal>();
             }
         });
     }
 
-    public void Initialize(IEnemyTarget target) {
-        _enemyTypeTotal = new Dictionary<int, int>(_formation.EnemyTypeTotal);
+    public void Initialize(IEnemyTarget target, string currentFormationName) {
+        FormationPatternResource formationResource = _resourceLoader.GetFormation(currentFormationName);
+        _formation.Initialize(formationResource);
+
+        _enemyTypeTotal = new Dictionary<int, int>(_formation.TotalEnemiesByType);
         _totalEnemiesToDestroy = _formation.TotalEnemies;
         _target = target;
     }
@@ -66,6 +70,16 @@ public class EnemyManager : MonoBehaviour {
     public void Deinitialize() {
         foreach (EnemyMainController enemy in _enemyList) {
             enemy.Deinitialize();
+        }
+
+        _formation.Deinitialize();
+    }
+
+    public void OnUpdate() {
+        _formation.OnUpdate();
+
+        foreach (EnemyMainController enemy in _enemyList) {
+            enemy.OnUpdate();
         }
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFormationMovement : MonoBehaviour {
+public class EnemyFormationMovement : MonoBehaviour, IGameControlled {
 
     public enum MovementTypeEnum {
         SIDEWAYS = 1,
@@ -26,21 +26,21 @@ public class EnemyFormationMovement : MonoBehaviour {
 
     private Transform _formationTransform;
 
-    public void Construct(Transform formationTransform, FormationPatternResource formationResource, List<GameConfig.FormationMovementConfig> formationConfigList) {
-        _formationTransform = formationTransform;
-        _formationResource = formationResource;
-        _formationConfigList = formationConfigList;
+    public void Construct(Transform formationTransform, List<GameConfig.FormationMovementConfig> formationConfigList) {
+        _formationTransform = formationTransform;        
+        _formationConfigList = formationConfigList;        
+    }
 
+    public void Initialize(FormationPatternResource formationResource) {
+        _formationResource = formationResource;
         ChangeCurrentMovement(MovementTypeEnum.SIDEWAYS);
     }
 
-    public void UpdateMargins(float absoluteLeftLimit, float absoluteRightLimit) {
-        _absoluteLeftLimit = absoluteLeftLimit;
-        _absoluteRightLimit = absoluteRightLimit;
+    public void Deinitialize() {
+
     }
 
-    private void Update() {
-        //UpdateCurrentMovement();
+    public void OnUpdate() {
 
         switch (_currentMovement) {
             case MovementTypeEnum.SIDEWAYS:
@@ -65,6 +65,11 @@ public class EnemyFormationMovement : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    public void UpdateMargins(float absoluteLeftLimit, float absoluteRightLimit) {
+        _absoluteLeftLimit = absoluteLeftLimit;
+        _absoluteRightLimit = absoluteRightLimit;
     }
 
     private void ChangeCurrentMovement(MovementTypeEnum movementType) {

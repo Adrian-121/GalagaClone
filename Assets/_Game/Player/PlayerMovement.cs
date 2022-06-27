@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour, IGameControlled {
 
     [SerializeField] private float _speed = 5;
 
@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Construct(PlayerInput playerInput) {
         _playerInput = playerInput;
+    }
+
+    public void Deinitialize() {
+
     }
 
     public void OnUpdate() {

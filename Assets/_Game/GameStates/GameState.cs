@@ -1,27 +1,21 @@
-using UnityEngine;
-using Zenject;
-
 public class GameState : BaseGameState {
-
-    [Inject] private GameManager _gameManager;
-
-    [SerializeField] private GameObject _inGameUI;
 
     public override void OnEnter() {
         _signalBus.Subscribe<GameOverSignal>(OnGameOver);
-        _inGameUI.SetActive(true);
+        _associatedUIWindow.SetActive(true);
 
         _gameManager.StartGame();
     }
 
     public override void OnExit() {
-        _inGameUI.SetActive(false);
-        _gameManager.StopGame();
+        _associatedUIWindow.SetActive(false);
+        _gameManager.Deinitialize();
 
         _signalBus.Unsubscribe<GameOverSignal>(OnGameOver);
     }
 
     public override void OnUpdate() {
+        _gameManager.OnUpdate();
     }
 
     private void OnGameOver() {

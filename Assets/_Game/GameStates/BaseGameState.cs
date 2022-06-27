@@ -1,11 +1,17 @@
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// Template for a Game State.
+/// </summary>
 public abstract class BaseGameState : MonoBehaviour {
+
+    [SerializeField] protected GameObject _associatedUIWindow;
 
     [Inject] protected GameFSM _gameFSM;
     [Inject] protected readonly SignalBus _signalBus;
     [Inject] protected ResourceLoader _resourceLoader;
+    [Inject] protected GameManager _gameManager;
 
     public enum StateNameEnum {
         MAIN_MENU = 1,

@@ -5,7 +5,7 @@ public class EnemyFormationMover : BaseEnemyMover {
     protected EnemyFormation _enemyFormation;
     protected Vector2Int _formationSlot;
 
-    private bool _isInFormation = false;
+    private bool _isInFormation;
 
     public void Construct(EnemyMainController enemy, EnemyFormation enemyFormation) {
         _enemy = enemy;
@@ -14,6 +14,7 @@ public class EnemyFormationMover : BaseEnemyMover {
 
     public void Initialize(GameConfig.EnemyConfig config) {
         _config = config;
+        _isInFormation = false;
     }
 
     public override void OnEnter() {

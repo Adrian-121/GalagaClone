@@ -42,7 +42,7 @@ public class EnemyMovement : MonoBehaviour {
         _formationMover.OnExit();
     }
 
-    public void UpdateThis() {
+    public void OnUpdate() {
         if (_currentMover != null) {
             _currentMover.OnUpdate();
         }

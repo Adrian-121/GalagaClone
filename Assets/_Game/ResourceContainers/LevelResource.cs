@@ -21,6 +21,7 @@ public class LevelResource {
     }
 
     public string Name;
+    public string Formation;
     public List<Sequence> SequenceList;
 
 }

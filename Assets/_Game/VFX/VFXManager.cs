@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class VFXManager : MonoBehaviour {
+public class VFXManager : MonoBehaviour, IGameControlled {
 
     private VFXObject.Factory _vfxObjectFactory;
 
@@ -18,6 +18,12 @@ public class VFXManager : MonoBehaviour {
             newVFX.transform.SetParent(transform);
             _vfxObjectList.Add(newVFX);
         }
+    }
+
+    public void Deinitialize() {
+    }
+
+    public void OnUpdate() {
     }
 
     public void SpawnVFX(VFXObject.TypeEnum type, Vector3 position) {

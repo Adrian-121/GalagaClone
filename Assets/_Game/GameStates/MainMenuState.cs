@@ -1,18 +1,15 @@
-using UnityEngine;
-
 public class MainMenuState : BaseGameState {
 
-    [SerializeField] private GameObject _mainMenuUI;
-
     public override void OnEnter() {
-        _mainMenuUI.SetActive(true);
+        _associatedUIWindow.SetActive(true);
 
         _signalBus.Subscribe<StartGameSignal>(OnStartGame);
+
         ProcessHighScores();
     }
 
     public override void OnExit() {
-        _mainMenuUI.SetActive(false);
+        _associatedUIWindow.SetActive(false);
 
         _signalBus.Unsubscribe<StartGameSignal>(OnStartGame);
     }

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour, IGameControlled {
 
     private SignalBus _signalBus;
 
     private EnemyManager _enemyManager;
     private ProjectileManager _projectileManager;
+    private VFXManager _vfxManager;
+    private List<IGameControlled> _managerList;
 
     private PlayerMainController _player;
     private PlayerMainController.Factory _playerFactory;
@@ -64,7 +66,7 @@ public class GameManager : MonoBehaviour {
 
             if (_playerLives <= 0 && _isGameStarted) {
                 _signalBus.Fire(new GameOverSignal() { Highscore = _currentScore });
-                StopGame();
+                Deinitialize();
             }
 
             _signalBus.Fire(new PlayerKilledSignal() { PlayerLivesLeft = _playerLives });
@@ -82,6 +84,20 @@ public class GameManager : MonoBehaviour {
 
         _enemyManager = GetComponentInChildren<EnemyManager>();
         _projectileManager = GetComponentInChildren<ProjectileManager>();
+        _vfxManager = GetComponentInChildren<VFXManager>();
+
+        _managerList = new List<IGameControlled>() { _enemyManager, _projectileManager, _vfxManager };
+    }
+
+    public void Deinitialize() {
+        _isGameStarted = false;
+
+        _player.Deinitialize();
+        _activeSequences.Clear();
+
+        foreach (IGameControlled manager in _managerList) {
+            manager.Deinitialize();
+        }
     }
 
     public void StartGame() {
@@ -109,7 +125,7 @@ public class GameManager : MonoBehaviour {
         _currentLevel = _resourceLoader.GetLevel($"level{_currentLevelNumber}");
 
         if (_currentLevel != null) {
-            _enemyManager.Initialize(_player);
+            _enemyManager.Initialize(_player, _currentLevel.Formation);
             _signalBus.Fire(new LevelChangedSignal() { LevelName = _currentLevel.Name });
         }
         else {
@@ -117,18 +133,17 @@ public class GameManager : MonoBehaviour {
         }        
     }
 
-    public void StopGame() {
-        _isGameStarted = false;
-
-        _player.Deinitialize();
-        _enemyManager.Deinitialize();
-    }
-
-    private void Update() {
+    public void OnUpdate() {
         if (!_isGameStarted) { return; }
 
         UpdateSequences();
         ProcessActiveSequences();
+
+        _player.OnUpdate();
+
+        foreach (IGameControlled manager in _managerList) {
+            manager.OnUpdate();
+        }
     }
 
     private void UpdateSequences() {

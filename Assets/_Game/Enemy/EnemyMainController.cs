@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class EnemyMainController : MonoBehaviour, ITakeHit {
+public class EnemyMainController : MonoBehaviour, ITakeHit, IGameControlled {
 
     public enum TypeEnum {
         GRUNT = 1,
@@ -55,13 +55,13 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
         IsAlive = true;
     }
 
-    public void Deinitialize(bool withBlast = false) {
+    public void Deinitialize() {
         _movement.Deinitialize();
         _renderer.gameObject.SetActive(false);
         IsAlive = false;
     }
 
-    private void Update() {
+    public void OnUpdate() {
         if (!IsAlive) { return; }
 
         if (_target != null) {
@@ -77,7 +77,7 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
             }
         }        
 
-        _movement.UpdateThis();
+        _movement.OnUpdate();
     }
 
     private void Configure(TypeEnum type) {
@@ -105,7 +105,7 @@ public class EnemyMainController : MonoBehaviour, ITakeHit {
             }
             
             _signalBus.Fire(new EnemyKilledSignal() { Points = _config.points });
-            Deinitialize(true);
+            Deinitialize();
         }
     }
 

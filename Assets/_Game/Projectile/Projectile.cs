@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : MonoBehaviour, IGameControlled {
 
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _lifetimeInSeconds = 3;
@@ -36,7 +36,11 @@ public class Projectile : MonoBehaviour {
         _timeSinceLaunched = Time.time;
     }
 
-    private void Update() {
+    public void Deinitialize() {
+        DestroyThis();
+    }
+
+    public void OnUpdate() {
         if (!_isAlive) { return; }
      
         transform.Translate(Vector3.up * _speed * Time.deltaTime);

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFormation : MonoBehaviour {
+public class EnemyFormation : MonoBehaviour, IGameControlled {
 
     public struct FormationSlot {
         public int Type;
@@ -19,16 +19,20 @@ public class EnemyFormation : MonoBehaviour {
     private EnemyFormationMovement _movement;
 
     private List<EnemyMainController> _enemyList = new List<EnemyMainController>();
-    private Dictionary<EnemyMainController, Vector2Int> _enemyToSlot = new Dictionary<EnemyMainController, Vector2Int>();
+    private Dictionary<EnemyMainController, Vector2Int> _enemyToSlotCount = new Dictionary<EnemyMainController, Vector2Int>();
 
     public int TotalEnemies { get; private set; }
-    private Dictionary<int, int> _enemyTypeTotal = new Dictionary<int, int>();
-    public Dictionary<int, int> EnemyTypeTotal => _enemyTypeTotal;
-    
-    public void Initialize(FormationPatternResource formationPatternResource, List<GameConfig.FormationMovementConfig> formationConfigList) {
-        _movement = GetComponentInChildren<EnemyFormationMovement>();
-        _movement.Construct(transform, formationPatternResource, formationConfigList);
+    private Dictionary<int, int> _totalEnemiesByType = new Dictionary<int, int>();
+    public Dictionary<int, int> TotalEnemiesByType => _totalEnemiesByType;
 
+    public void Construct(List<GameConfig.FormationMovementConfig> formationConfigList) {
+        _movement = GetComponentInChildren<EnemyFormationMovement>();
+        _movement.Construct(transform, formationConfigList);
+    }
+    
+    public void Initialize(FormationPatternResource formationPatternResource) {
+        _movement.Initialize(formationPatternResource);
+        
         _formation = new FormationSlot[formationPatternResource.MaxRows][];
         _formationResource = formationPatternResource;
 
@@ -46,11 +50,11 @@ public class EnemyFormation : MonoBehaviour {
                 _formation[i][j].RowIndex = i;
                 _formation[i][j].ColIndex = j;
 
-                if (!_enemyTypeTotal.ContainsKey(_formation[i][j].Type)) {
-                    _enemyTypeTotal.Add(_formation[i][j].Type, 1);
+                if (!_totalEnemiesByType.ContainsKey(_formation[i][j].Type)) {
+                    _totalEnemiesByType.Add(_formation[i][j].Type, 1);
                 }
                 else {
-                    _enemyTypeTotal[_formation[i][j].Type]++;
+                    _totalEnemiesByType[_formation[i][j].Type]++;
                 }
 
                 if (_formation[i][j].Type != 0) {
@@ -60,10 +64,26 @@ public class EnemyFormation : MonoBehaviour {
         } 
     }
 
+    public void Deinitialize() {
+        for (int i = 0; i < _formationResource.MaxRows; i++) {
+            for (int j = 0; j < _formationResource.MaxColumns; j++) {
+                _formation[i][j].IsCurrentlyUsed = false;
+                _formation[i][j].IsDisabled = false;
+            }
+        }
+    }
+
+    public void OnUpdate() {
+        _movement.OnUpdate();
+    }
+
     public Vector3 GetRelativePosition(Vector2Int formationSlot) {
         return _movement.GetRelativePosition(formationSlot);
     }
 
+    /// <summary>
+    /// Assigns an enemy to the formation and returns the formation position for it.
+    /// </summary>
     public Vector2Int AssignEnemy(EnemyMainController enemy) {
         for (int i = 0; i < _formation.Length; i++) {
             for (int j = 0; j < _formation[i].Length; j++) {
@@ -75,7 +95,7 @@ public class EnemyFormation : MonoBehaviour {
                 ProcessLimitPositions();
 
                 _enemyList.Add(enemy);
-                _enemyToSlot.Add(enemy, new Vector2Int(i, j));
+                _enemyToSlotCount.Add(enemy, new Vector2Int(i, j));
 
                 return new Vector2Int(i, j);
             }
@@ -84,16 +104,19 @@ public class EnemyFormation : MonoBehaviour {
         return Vector2Int.zero;
     }
 
+    /// <summary>
+    /// Removes the given enemy from the formation.
+    /// </summary>
     public void RemoveEnemy(EnemyMainController enemy) {
-        if (!_enemyToSlot.ContainsKey(enemy)) { return; }
+        if (!_enemyToSlotCount.ContainsKey(enemy)) { return; }
 
-        Vector2Int slot = _enemyToSlot[enemy];
+        Vector2Int slot = _enemyToSlotCount[enemy];
 
         _formation[slot.x][slot.y].IsCurrentlyUsed = false;
         _formation[slot.x][slot.y].IsDisabled = true;
 
         _enemyList.Remove(enemy);
-        _enemyToSlot.Remove(enemy);
+        _enemyToSlotCount.Remove(enemy);
 
         ProcessLimitPositions();
     }
@@ -102,7 +125,7 @@ public class EnemyFormation : MonoBehaviour {
         int rightLimit = 0;
         int leftLimit = 0;
 
-        // Going from LEFT => RIGHT and, at the first used slot, exit
+        // Search for the RIGHT limit of the formation.
         for (int colIndex = 0; colIndex < _formationResource.MaxColumns; colIndex++) {
             for (int rowIndex = 0; rowIndex < _formationResource.MaxRows; rowIndex++) {
                 if (_formation[rowIndex][colIndex].IsCurrentlyUsed) {
@@ -112,7 +135,7 @@ public class EnemyFormation : MonoBehaviour {
             }
         }
 
-        // Going from RIGHT => LEFT and, at the first used slot, exit
+        // Search for the LEFT limit of the formation.
         for (int colIndex = _formationResource.MaxColumns - 1; colIndex >= 0; colIndex--) {
             for (int rowIndex = 0; rowIndex < _formationResource.MaxRows; rowIndex++) {
                 if (_formation[rowIndex][colIndex].IsCurrentlyUsed) {

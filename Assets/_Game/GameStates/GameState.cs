@@ -4,7 +4,7 @@ public class GameState : BaseGameState {
         _signalBus.Subscribe<GameOverSignal>(OnGameOver);
         _associatedUIWindow.SetActive(true);
 
-        _gameManager.StartGame();
+        _gameManager.StartNewGame();
     }
 
     public override void OnExit() {

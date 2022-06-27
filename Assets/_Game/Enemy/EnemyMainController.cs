@@ -19,7 +19,7 @@ public class EnemyMainController : MonoBehaviour, ITakeHit, IGameControlled {
     [Inject] private SoundManager _soundManager;
     [Inject] private ProjectileManager _projectileManager;
 
-    private EnemyMovement _movement;
+    private EnemyBehaviorController _movement;
     private SpriteRenderer _renderer;
     private Animator _animator;
     private ProjectileCollisionDetector _collisionDetector;
@@ -32,7 +32,7 @@ public class EnemyMainController : MonoBehaviour, ITakeHit, IGameControlled {
     public bool IsAlive { get; private set; }
 
     public void Construct(EnemyFormation formation) {
-        _movement = GetComponentInChildren<EnemyMovement>();
+        _movement = GetComponentInChildren<EnemyBehaviorController>();
         _movement.Construct(this, formation);
 
         _renderer = GetComponentInChildren<SpriteRenderer>();

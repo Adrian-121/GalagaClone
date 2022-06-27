@@ -12,13 +12,15 @@ public class Projectile : MonoBehaviour, IGameControlled {
     private SpriteRenderer _renderer;
     private ProjectileCollisionDetector _collisionDetector;
     private GameObject _parent;
+    private TrailRenderer _trail;
 
     private float _timeSinceLaunched;
 
     private void Awake() {
         _renderer = GetComponentInChildren<SpriteRenderer>();
+        _trail = GetComponentInChildren<TrailRenderer>();
+        
         _collisionDetector = GetComponentInChildren<ProjectileCollisionDetector>();
-
         _collisionDetector.OnHit.AddListener(OnCollided);
 
         DestroyThis();
@@ -31,6 +33,8 @@ public class Projectile : MonoBehaviour, IGameControlled {
         _parent = parent;
 
         _renderer.gameObject.SetActive(true);
+        _trail.Clear();
+
         _isAlive = true;
 
         _timeSinceLaunched = Time.time;

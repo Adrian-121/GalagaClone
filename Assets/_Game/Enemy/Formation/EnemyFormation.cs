@@ -18,9 +18,6 @@ public class EnemyFormation : MonoBehaviour, IGameControlled {
 
     private EnemyFormationMovement _movement;
 
-    private List<EnemyMainController> _enemyList = new List<EnemyMainController>();
-    private Dictionary<EnemyMainController, Vector2Int> _enemyToSlotCount = new Dictionary<EnemyMainController, Vector2Int>();
-
     public int TotalEnemies { get; private set; }
     private Dictionary<int, int> _totalEnemiesByType = new Dictionary<int, int>();
     public Dictionary<int, int> TotalEnemiesByType => _totalEnemiesByType;
@@ -32,11 +29,14 @@ public class EnemyFormation : MonoBehaviour, IGameControlled {
     
     public void Initialize(FormationPatternResource formationPatternResource) {
         _movement.Initialize(formationPatternResource);
-        
-        _formation = new FormationSlot[formationPatternResource.MaxRows][];
         _formationResource = formationPatternResource;
 
+        // Clear the number of possible enemies.
         TotalEnemies = 0;
+        _totalEnemiesByType.Clear();
+
+        // Create a new formation.
+        _formation = new FormationSlot[formationPatternResource.MaxRows][];
 
         for (int i = 0; i < formationPatternResource.MaxRows; i++) {
             _formation[i] = new FormationSlot[formationPatternResource.MaxColumns];
@@ -49,6 +49,8 @@ public class EnemyFormation : MonoBehaviour, IGameControlled {
 
                 _formation[i][j].RowIndex = i;
                 _formation[i][j].ColIndex = j;
+
+                // Count the enemies supported by this formation.
 
                 if (!_totalEnemiesByType.ContainsKey(_formation[i][j].Type)) {
                     _totalEnemiesByType.Add(_formation[i][j].Type, 1);
@@ -65,20 +67,14 @@ public class EnemyFormation : MonoBehaviour, IGameControlled {
     }
 
     public void Deinitialize() {
-        for (int i = 0; i < _formationResource.MaxRows; i++) {
-            for (int j = 0; j < _formationResource.MaxColumns; j++) {
-                _formation[i][j].IsCurrentlyUsed = false;
-                _formation[i][j].IsDisabled = false;
-            }
-        }
     }
 
     public void OnUpdate() {
         _movement.OnUpdate();
     }
 
-    public Vector3 GetRelativePosition(Vector2Int formationSlot) {
-        return _movement.GetRelativePosition(formationSlot);
+    public Vector3 FormationSlotToWorldPosition(Vector2Int formationSlot) {
+        return _movement.FormationSlotToWorldPosition(formationSlot);
     }
 
     /// <summary>
@@ -94,9 +90,6 @@ public class EnemyFormation : MonoBehaviour, IGameControlled {
                 _formation[i][j].IsCurrentlyUsed = true;
                 ProcessLimitPositions();
 
-                _enemyList.Add(enemy);
-                _enemyToSlotCount.Add(enemy, new Vector2Int(i, j));
-
                 return new Vector2Int(i, j);
             }
         }
@@ -107,20 +100,18 @@ public class EnemyFormation : MonoBehaviour, IGameControlled {
     /// <summary>
     /// Removes the given enemy from the formation.
     /// </summary>
-    public void RemoveEnemy(EnemyMainController enemy) {
-        if (!_enemyToSlotCount.ContainsKey(enemy)) { return; }
-
-        Vector2Int slot = _enemyToSlotCount[enemy];
-
-        _formation[slot.x][slot.y].IsCurrentlyUsed = false;
-        _formation[slot.x][slot.y].IsDisabled = true;
-
-        _enemyList.Remove(enemy);
-        _enemyToSlotCount.Remove(enemy);
+    public void RemoveEnemy(Vector2Int formationSlot) {
+        // Mark this slot to not be used by another enemy in this run.
+        _formation[formationSlot.x][formationSlot.y].IsCurrentlyUsed = false;
+        _formation[formationSlot.x][formationSlot.y].IsDisabled = true;
 
         ProcessLimitPositions();
     }
 
+    /// <summary>
+    /// Calculates the maximum left/right limits of the current formation.
+    /// These change based on enemy assignment/removal from the formation.
+    /// </summary>
     private void ProcessLimitPositions() {
         int rightLimit = 0;
         int leftLimit = 0;
@@ -129,6 +120,7 @@ public class EnemyFormation : MonoBehaviour, IGameControlled {
         for (int colIndex = 0; colIndex < _formationResource.MaxColumns; colIndex++) {
             for (int rowIndex = 0; rowIndex < _formationResource.MaxRows; rowIndex++) {
                 if (_formation[rowIndex][colIndex].IsCurrentlyUsed) {
+                    // First found, exit.
                     rightLimit = colIndex;
                     break;
                 }
@@ -139,6 +131,7 @@ public class EnemyFormation : MonoBehaviour, IGameControlled {
         for (int colIndex = _formationResource.MaxColumns - 1; colIndex >= 0; colIndex--) {
             for (int rowIndex = 0; rowIndex < _formationResource.MaxRows; rowIndex++) {
                 if (_formation[rowIndex][colIndex].IsCurrentlyUsed) {
+                    // First found, exit.
                     leftLimit = colIndex;
                     break;
                 }

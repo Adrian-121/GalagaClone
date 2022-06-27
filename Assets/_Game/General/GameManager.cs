@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
         }
     }
 
-    public void StartGame() {
+    public void StartNewGame() {
         _isGameStarted = true;
         
         if (_player == null) {
@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
         
         _player.Initialize(_playerSpawnPosition.transform.position);
 
+        _currentLevelNumber = 1;
         CurrentScore = 0;
         TopScore = _resourceLoader.GetHighscores().GetTop();
 

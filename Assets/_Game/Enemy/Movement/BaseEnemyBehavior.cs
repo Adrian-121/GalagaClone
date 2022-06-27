@@ -1,11 +1,10 @@
 using UnityEngine;
 
-public abstract class BaseEnemyMover : MonoBehaviour {
+public abstract class BaseEnemyBehavior : MonoBehaviour {
 
     public enum TypeEnum {
         FORMATION = 1,
-        PATTERN = 2,
-        LUNGE = 3
+        PATTERN = 2
     }
 
     [SerializeField] protected TypeEnum _type;

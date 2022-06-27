@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemyPatternMover : BaseEnemyMover {
+public class EnemyPatternBehavior : BaseEnemyBehavior {
 
     public UnityEvent OnPatternFinished;
 

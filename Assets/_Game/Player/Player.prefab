@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5664702536954023408}
   - component: {fileID: 3088126803056464237}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FireSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 7827467332526776219}
   - component: {fileID: 2892301865695605787}
   - component: {fileID: 9070788728051044581}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Render
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 7827467333393554812}
   - component: {fileID: 7827467333393554811}
   - component: {fileID: 7827467333393554808}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7827467333668770445}
   - component: {fileID: 7827467333668770442}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MovementSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}

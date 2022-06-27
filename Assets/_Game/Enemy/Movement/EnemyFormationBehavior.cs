@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyFormationMover : BaseEnemyMover {
+public class EnemyFormationBehavior : BaseEnemyBehavior {
 
     protected EnemyFormation _enemyFormation;
     protected Vector2Int _formationSlot;
@@ -26,7 +26,7 @@ public class EnemyFormationMover : BaseEnemyMover {
 
     public override void OnExit() {
         if (_enemyFormation == null) { return; }
-        _enemyFormation.RemoveEnemy(_enemy);
+        _enemyFormation.RemoveEnemy(_formationSlot);
     }
 
     public override void OnUpdate() {
@@ -41,7 +41,7 @@ public class EnemyFormationMover : BaseEnemyMover {
     }
 
     private void GotoFormationPosition() {
-        Vector3 formationPosition = _enemyFormation.GetRelativePosition(_formationSlot);
+        Vector3 formationPosition = _enemyFormation.FormationSlotToWorldPosition(_formationSlot);
         float dist = Vector3.Distance(_enemy.transform.position, formationPosition);
 
         if (dist < 0.01f) {
@@ -54,6 +54,6 @@ public class EnemyFormationMover : BaseEnemyMover {
     }
 
     private void MaintainFormation() {
-        _enemy.transform.position = _enemyFormation.GetRelativePosition(_formationSlot);
+        _enemy.transform.position = _enemyFormation.FormationSlotToWorldPosition(_formationSlot);
     }
 }

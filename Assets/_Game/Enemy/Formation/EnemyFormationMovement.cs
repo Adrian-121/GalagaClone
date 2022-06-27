@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,18 +12,17 @@ public class EnemyFormationMovement : MonoBehaviour, IGameControlled {
     private MovementTypeEnum _currentMovement = MovementTypeEnum.SIDEWAYS;
     private float _currentMovementTime;
 
-    private float _direction = -1;
-    private float _directionOffset = 2.5f;
-
     private FormationPatternResource _formationResource;
-    private List<GameConfig.FormationMovementConfig> _formationConfigList;
+    private GameConfig.FormationMovementConfig _selectedFormationConfig;
 
-    private GameConfig.FormationMovementConfig selectedFormationConfig;
+    private float _direction = -1;
+    private float _positionOffset = 2.5f;
 
-    private float _absoluteRightLimit;
-    private float _absoluteLeftLimit;
+    private float _rightMargin;
+    private float _leftMargin;
 
     private Transform _formationTransform;
+    private List<GameConfig.FormationMovementConfig> _formationConfigList;
 
     public void Construct(Transform formationTransform, List<GameConfig.FormationMovementConfig> formationConfigList) {
         _formationTransform = formationTransform;        
@@ -37,11 +35,9 @@ public class EnemyFormationMovement : MonoBehaviour, IGameControlled {
     }
 
     public void Deinitialize() {
-
     }
 
     public void OnUpdate() {
-
         switch (_currentMovement) {
             case MovementTypeEnum.SIDEWAYS:
                 MoveSideways();
@@ -54,8 +50,9 @@ public class EnemyFormationMovement : MonoBehaviour, IGameControlled {
                 break;
         }
 
-        if (Time.time - _currentMovementTime > selectedFormationConfig.Time) {
-            switch (selectedFormationConfig.MovementType) {
+        // Cycle between different formation movements.
+        if (Time.time - _currentMovementTime > _selectedFormationConfig.Time) {
+            switch (_selectedFormationConfig.MovementType) {
                 case MovementTypeEnum.SIDEWAYS:
                     ChangeCurrentMovement(MovementTypeEnum.IN_OUT);
                     break;
@@ -68,8 +65,14 @@ public class EnemyFormationMovement : MonoBehaviour, IGameControlled {
     }
 
     public void UpdateMargins(float absoluteLeftLimit, float absoluteRightLimit) {
-        _absoluteLeftLimit = absoluteLeftLimit;
-        _absoluteRightLimit = absoluteRightLimit;
+        _leftMargin = absoluteLeftLimit;
+        _rightMargin = absoluteRightLimit;
+    }
+
+    public Vector3 FormationSlotToWorldPosition(Vector2Int formationSlot) {
+        return _formationTransform.position +
+            new Vector3(formationSlot.y - (_formationResource.MaxColumns - 1) / 2f,
+                (_formationResource.MaxRows - 1) / 2f - formationSlot.x, 0) / _positionOffset;
     }
 
     private void ChangeCurrentMovement(MovementTypeEnum movementType) {
@@ -78,50 +81,45 @@ public class EnemyFormationMovement : MonoBehaviour, IGameControlled {
 
         foreach (GameConfig.FormationMovementConfig formationConfig in _formationConfigList) {
             if (formationConfig.MovementType == movementType) {
-                selectedFormationConfig = formationConfig;
+                _selectedFormationConfig = formationConfig;
                 break;
             }
         }
     }
 
+    // Movement Patterns.
+
     private void MoveSideways() {
-        Vector3 relLeft = GetRelativePosition(new Vector2Int(0, (int)_absoluteLeftLimit - 1));
-        Vector3 relRight = GetRelativePosition(new Vector2Int(0, (int)_absoluteRightLimit + 1));
+        Vector3 leftMarginWorldPos = FormationSlotToWorldPosition(new Vector2Int(0, (int)_leftMargin - 1));
+        Vector3 rightMarginWorldPos = FormationSlotToWorldPosition(new Vector2Int(0, (int)_rightMargin + 1));
 
         Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
-        _formationTransform.Translate(Vector3.right * _direction * selectedFormationConfig.Speed * Time.deltaTime);
+        _formationTransform.Translate(Vector3.right * _direction * _selectedFormationConfig.Speed * Time.deltaTime);
 
-        if (relLeft.x < minScreenBounds.x && _direction < 0) {
+        // Change the direction if a margin was reached.
+        if ((leftMarginWorldPos.x < minScreenBounds.x && _direction < 0) ||
+            (rightMarginWorldPos.x > maxScreenBounds.x && _direction > 0)) {
             _direction *= -1;
         }
-        if (relRight.x > maxScreenBounds.x && _direction > 0) {
-            _direction *= -1;
-        }
 
-        if (_directionOffset < 2.55f) {
-            _directionOffset += Time.deltaTime * 0.25f;
+        // Slowly adjust back the position offset from Move IN/OUT
+        if (_positionOffset < 2.55f) {
+            _positionOffset += Time.deltaTime * 0.25f;
         }
     }
 
     private void MoveInOut() {
-        _directionOffset += Time.deltaTime * _direction * selectedFormationConfig.Speed;
+        _positionOffset += Time.deltaTime * _direction * _selectedFormationConfig.Speed;
 
-        if (_directionOffset > 2.55f) {
-            _directionOffset = 2.54f;
+        if (_positionOffset > 2.55f) {
+            _positionOffset = 2.54f;
             _direction *= -1;
         }
-        else if (_directionOffset < 2.0f) {
-            _directionOffset = 2.01f;
+        else if (_positionOffset < 2.0f) {
+            _positionOffset = 2.01f;
             _direction *= -1;
         }
     }
-
-    public Vector3 GetRelativePosition(Vector2Int formationSlot) {
-        return _formationTransform.position +
-            new Vector3(formationSlot.y - (_formationResource.MaxColumns - 1) / 2f,
-                (_formationResource.MaxRows - 1) / 2f - formationSlot.x, 0) / _directionOffset;
-    }
-
 }

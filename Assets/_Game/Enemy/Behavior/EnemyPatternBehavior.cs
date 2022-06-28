@@ -14,7 +14,7 @@ public class EnemyPatternBehavior : BaseEnemyBehavior {
 
     private bool _isFinished;
     
-    public void Construct(EnemyMainController enemy) {
+    public void Construct(Enemy enemy) {
         _enemy = enemy;
     }
 

@@ -2,13 +2,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-public class PlayerMainController : MonoBehaviour, ITakeHit, IEnemyTarget, IGameControlled {
+public class Player : MonoBehaviour, ITakeHit, IEnemyTarget, IGameControlled {
 
     // Game Systems.
     private PlayerInput _playerInput;
     private SignalBus _signalBus;
-    private VFXManager _vfxManager;
-    private SoundManager _soundManager;
+    private VFXSystem _vfxManager;
+    private SoundSystem _soundManager;
 
     // Player Components.
     private PlayerMovement _playerMovement;
@@ -20,7 +20,7 @@ public class PlayerMainController : MonoBehaviour, ITakeHit, IEnemyTarget, IGame
     private bool _isAlive;
 
     [Inject]
-    public void Construct(ProjectileManager projectileManager, SignalBus signalBus, SoundManager soundManager, VFXManager vfxManager) {
+    public void Construct(ProjectileSystem projectileManager, SignalBus signalBus, SoundSystem soundManager, VFXSystem vfxManager) {
         _signalBus = signalBus;
         _soundManager = soundManager;
         _vfxManager = vfxManager;
@@ -78,5 +78,5 @@ public class PlayerMainController : MonoBehaviour, ITakeHit, IEnemyTarget, IGame
         return transform.position;
     }
 
-    public class Factory : PlaceholderFactory<PlayerMainController> { }
+    public class Factory : PlaceholderFactory<Player> { }
 }

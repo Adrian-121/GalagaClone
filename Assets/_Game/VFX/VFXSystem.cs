@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class VFXManager : MonoBehaviour, IGameControlled {
+public class VFXSystem : MonoBehaviour, IGameControlled {
 
     private VFXObject.Factory _vfxObjectFactory;
 

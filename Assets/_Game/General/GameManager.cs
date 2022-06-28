@@ -7,13 +7,13 @@ public class GameManager : MonoBehaviour, IGameControlled {
 
     private SignalBus _signalBus;
 
-    private EnemyManager _enemyManager;
-    private ProjectileManager _projectileManager;
-    private VFXManager _vfxManager;
-    private List<IGameControlled> _managerList;
+    private EnemySystem _enemySystem;
+    private ProjectileSystem _projectileSystem;
+    private VFXSystem _vfxSystem;
+    private List<IGameControlled> _systemsList;
 
-    private PlayerMainController _player;
-    private PlayerMainController.Factory _playerFactory;
+    private Player _player;
+    private Player.Factory _playerFactory;
     private PlayerSpawnPosition _playerSpawnPosition;
 
     private ResourceLoader _resourceLoader;
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
     private bool _isGameStarted = false;
 
     [Inject]
-    public void Construct(SignalBus signalBus, ResourceLoader resourceLoader, PlayerMainController.Factory playerFactory, PlayerSpawnPosition playerSpawnPosition) {
+    public void Construct(SignalBus signalBus, ResourceLoader resourceLoader, Player.Factory playerFactory, PlayerSpawnPosition playerSpawnPosition) {
         _signalBus = signalBus;
         
         _signalBus.Subscribe<EnemyKilledSignal>(x => {
@@ -82,11 +82,11 @@ public class GameManager : MonoBehaviour, IGameControlled {
         _playerFactory = playerFactory;
         _playerSpawnPosition = playerSpawnPosition;
 
-        _enemyManager = GetComponentInChildren<EnemyManager>();
-        _projectileManager = GetComponentInChildren<ProjectileManager>();
-        _vfxManager = GetComponentInChildren<VFXManager>();
+        _enemySystem = GetComponentInChildren<EnemySystem>();
+        _projectileSystem = GetComponentInChildren<ProjectileSystem>();
+        _vfxSystem = GetComponentInChildren<VFXSystem>();
 
-        _managerList = new List<IGameControlled>() { _enemyManager, _projectileManager, _vfxManager };
+        _systemsList = new List<IGameControlled>() { _enemySystem, _projectileSystem, _vfxSystem };
     }
 
     public void Deinitialize() {
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
         _player.Deinitialize();
         _activeSequences.Clear();
 
-        foreach (IGameControlled manager in _managerList) {
+        foreach (IGameControlled manager in _systemsList) {
             manager.Deinitialize();
         }
     }
@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
         }
         
         _player.Initialize(_playerSpawnPosition.transform.position);
-        _vfxManager.Initialize();
+        _vfxSystem.Initialize();
 
         _currentLevelNumber = _resourceLoader.GameConfig.StartLevel;
         CurrentScore = 0;
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
         _currentLevel = _resourceLoader.GetLevel($"level{_currentLevelNumber}");
 
         if (_currentLevel != null) {
-            _enemyManager.Initialize(_player, _currentLevel.Formation);
+            _enemySystem.Initialize(_player, _currentLevel.Formation);
             _signalBus.Fire(new LevelChangedSignal() { LevelName = _currentLevel.Name });
         }
         else {
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
 
         _player.OnUpdate();
 
-        foreach (IGameControlled manager in _managerList) {
+        foreach (IGameControlled manager in _systemsList) {
             manager.OnUpdate();
         }
     }
@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
             }
 
             if (Time.time - sequence._cooldown > sequence.Delay) {
-                _enemyManager.TrySpawnEnemy((EnemyMainController.TypeEnum)sequence.EnemyType, sequence.MovementPatternName);
+                _enemySystem.TrySpawnEnemy((Enemy.TypeEnum)sequence.EnemyType, sequence.MovementPatternName);
 
                 sequence._cooldown = Time.time;
                 sequence._spawned++;

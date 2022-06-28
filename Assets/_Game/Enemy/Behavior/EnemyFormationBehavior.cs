@@ -10,7 +10,7 @@ public class EnemyFormationBehavior : BaseEnemyBehavior {
 
     private bool _isInFormation;
 
-    public void Construct(EnemyMainController enemy, EnemyFormation enemyFormation) {
+    public void Construct(Enemy enemy, EnemyFormation enemyFormation) {
         _enemy = enemy;
         _enemyFormation = enemyFormation;
     }

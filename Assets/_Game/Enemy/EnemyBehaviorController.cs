@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class EnemyBehaviorController : MonoBehaviour {
 
-    private EnemyMainController _enemy;
+    private Enemy _enemy;
 
     private BaseEnemyBehavior _currentBehavior;
     private EnemyFormationBehavior _formationBehavior;
     private EnemyPatternBehavior _patternBehavior;
 
-    public void Construct(EnemyMainController enemy, EnemyFormation formation) {
+    public void Construct(Enemy enemy, EnemyFormation formation) {
         _enemy = enemy;
 
         _formationBehavior = GetComponentInChildren<EnemyFormationBehavior>();

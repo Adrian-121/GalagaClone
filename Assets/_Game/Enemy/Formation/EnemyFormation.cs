@@ -80,7 +80,7 @@ public class EnemyFormation : MonoBehaviour, IGameControlled {
     /// <summary>
     /// Assigns an enemy to the formation and returns the formation position for it.
     /// </summary>
-    public Vector2Int AssignEnemy(EnemyMainController enemy) {
+    public Vector2Int AssignEnemy(Enemy enemy) {
         for (int i = 0; i < _formation.Length; i++) {
             for (int j = 0; j < _formation[i].Length; j++) {
                 if (_formation[i][j].IsCurrentlyUsed) continue;

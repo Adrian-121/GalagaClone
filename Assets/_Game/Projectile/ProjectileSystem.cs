@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class ProjectileManager : MonoBehaviour, IGameControlled {
+public class ProjectileSystem : MonoBehaviour, IGameControlled {
 
     private Projectile.Factory _projectileFactory;
     private List<Projectile> _projectileList = new List<Projectile>();

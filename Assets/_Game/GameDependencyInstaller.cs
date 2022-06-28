@@ -3,9 +3,9 @@ using Zenject;
 
 public class GameDependencyInstaller : MonoInstaller {
 
-    [SerializeField] PlayerMainController _playerPrefab;
+    [SerializeField] Player _playerPrefab;
     [SerializeField] Projectile _projectilePrefab;
-    [SerializeField] EnemyMainController _enemyPrefab;
+    [SerializeField] Enemy _enemyPrefab;
     [SerializeField] VFXObject _explosionPrefab;
 
     public override void InstallBindings() {
@@ -39,15 +39,15 @@ public class GameDependencyInstaller : MonoInstaller {
         Container.Bind<GameFSM>().FromInstance(FindObjectOfType<GameFSM>()).AsSingle().NonLazy();
         Container.Bind<GameManager>().FromInstance(FindObjectOfType<GameManager>()).AsSingle().NonLazy();
         Container.Bind<ResourceLoader>().FromInstance(FindObjectOfType<ResourceLoader>()).AsSingle().NonLazy();
-        Container.Bind<ProjectileManager>().FromInstance(FindObjectOfType<ProjectileManager>()).AsSingle().NonLazy();
-        Container.Bind<UIManager>().FromInstance(FindObjectOfType<UIManager>()).AsSingle().NonLazy();
-        Container.Bind<VFXManager>().FromInstance(FindObjectOfType<VFXManager>()).AsSingle().NonLazy();
-        Container.Bind<SoundManager>().FromInstance(FindObjectOfType<SoundManager>()).AsSingle().NonLazy();
+        Container.Bind<ProjectileSystem>().FromInstance(FindObjectOfType<ProjectileSystem>()).AsSingle().NonLazy();
+        Container.Bind<UISystem>().FromInstance(FindObjectOfType<UISystem>()).AsSingle().NonLazy();
+        Container.Bind<VFXSystem>().FromInstance(FindObjectOfType<VFXSystem>()).AsSingle().NonLazy();
+        Container.Bind<SoundSystem>().FromInstance(FindObjectOfType<SoundSystem>()).AsSingle().NonLazy();
         Container.Bind<PlayerSpawnPosition>().FromInstance(FindObjectOfType<PlayerSpawnPosition>()).AsSingle().NonLazy();
 
         // Object Factories.
-        Container.BindFactory<PlayerMainController, PlayerMainController.Factory>().FromComponentInNewPrefab(_playerPrefab).AsSingle();
-        Container.BindFactory<EnemyMainController, EnemyMainController.Factory>().FromComponentInNewPrefab(_enemyPrefab).AsTransient();
+        Container.BindFactory<Player, Player.Factory>().FromComponentInNewPrefab(_playerPrefab).AsSingle();
+        Container.BindFactory<Enemy, Enemy.Factory>().FromComponentInNewPrefab(_enemyPrefab).AsTransient();
         Container.BindFactory<Projectile, Projectile.Factory>().FromComponentInNewPrefab(_projectilePrefab).AsTransient();
         Container.BindFactory<VFXObject, VFXObject.Factory>().FromComponentInNewPrefab(_explosionPrefab).AsTransient();
     }

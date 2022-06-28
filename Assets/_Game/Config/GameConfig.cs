@@ -14,7 +14,7 @@ public class GameConfig : ScriptableObject {
 
     public List<FormationMovementConfig> FormationConfigList;
 
-    public EnemyConfig GetEnemyConfigByType(EnemyMainController.TypeEnum type) {
+    public EnemyConfig GetEnemyConfigByType(Enemy.TypeEnum type) {
         foreach (EnemyConfig config in EnemyConfigList) {
             if (config.type == type) {
                 return config;
@@ -36,7 +36,7 @@ public class GameConfig : ScriptableObject {
 
     [System.Serializable]
     public class EnemyConfig {
-        public EnemyMainController.TypeEnum type;
+        public Enemy.TypeEnum type;
 
         [Header("Basic")]
         public int hp;

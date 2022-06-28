@@ -5,14 +5,14 @@ public class PlayerFire : MonoBehaviour, IGameControlled {
 
     private SignalBus _signalBus;
 
-    private PlayerMainController _player;
-    private ProjectileManager _projectileManager;
-    private SoundManager _soundManager;
+    private Player _player;
+    private ProjectileSystem _projectileManager;
+    private SoundSystem _soundManager;
 
     private float _reloadTime = 0.5f;
     private float _timeFromLastShot;
 
-    public void Construct(SignalBus signalBus, PlayerMainController player, ProjectileManager projectileManager, SoundManager soundManager) {
+    public void Construct(SignalBus signalBus, Player player, ProjectileSystem projectileManager, SoundSystem soundManager) {
         _signalBus = signalBus;
         _player = player;
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class SoundManager : MonoBehaviour {
+public class SoundSystem : MonoBehaviour {
 
     [SerializeField] private Vector2 _pitch;
 

@@ -6,8 +6,8 @@ using Zenject;
 
 public class PatternsEditor : MonoBehaviour {
 
-    [Inject] private EnemyMainController.Factory _enemyFactory;
-    private EnemyMainController _currentEnemy;
+    [Inject] private Enemy.Factory _enemyFactory;
+    private Enemy _currentEnemy;
 
     [SerializeField] private GameObject _patternsWindow;
     [SerializeField] private GameObject _patternEditWindow;
@@ -28,6 +28,11 @@ public class PatternsEditor : MonoBehaviour {
     private MovementPatternResource.MovementPatternContainer _allPatterns;
 
     [SerializeField] private List<EnemySpawnPoint> _spawnPoints;
+
+    private void Update() {
+        if (_currentEnemy == null) { return; }
+        _currentEnemy.OnUpdate();
+    }
 
     // Pattern Menu List
     public void RefreshPatternList(MovementPatternResource.MovementPatternContainer allPatterns) {
@@ -86,7 +91,7 @@ public class PatternsEditor : MonoBehaviour {
 
         _currentEnemy = _enemyFactory.Create();
         _currentEnemy.Construct(null);
-        _currentEnemy.Initialize(EnemyMainController.TypeEnum.GRUNT, _currentPatternResource, 
+        _currentEnemy.Initialize(Enemy.TypeEnum.GRUNT, _currentPatternResource, 
             GetSpawnPointPosition((EnemySpawnPoint.TypeEnum)_currentPatternResource.Spawner),
             _currentPatternResource.InitialRotation,
             null);

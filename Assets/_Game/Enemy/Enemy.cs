@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class EnemyMainController : MonoBehaviour, ITakeHit, IGameControlled {
+public class Enemy : MonoBehaviour, ITakeHit, IGameControlled {
 
     public enum TypeEnum {
         GRUNT = 1,
@@ -17,9 +17,9 @@ public class EnemyMainController : MonoBehaviour, ITakeHit, IGameControlled {
     // Game Systems.
     [Inject] private SignalBus _signalBus;
     [Inject] private ResourceLoader _resourceLoader;
-    [Inject] private VFXManager _vfxManager;
-    [Inject] private SoundManager _soundManager;
-    [Inject] private ProjectileManager _projectileManager;
+    [Inject] private VFXSystem _vfxManager;
+    [Inject] private SoundSystem _soundManager;
+    [Inject] private ProjectileSystem _projectileManager;
 
     // Components.
     private EnemyBehaviorController _behaviorController;
@@ -136,6 +136,6 @@ public class EnemyMainController : MonoBehaviour, ITakeHit, IGameControlled {
         TakeHit(withObject, true);
     }
 
-    public class Factory : PlaceholderFactory<EnemyMainController> { }
+    public class Factory : PlaceholderFactory<Enemy> { }
 
 }

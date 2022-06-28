@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class UIManager : MonoBehaviour {
+public class UISystem : MonoBehaviour {
 
     [SerializeField] private Button _startGameButton;
 
@@ -49,10 +49,15 @@ public class UIManager : MonoBehaviour {
         if (_gameOverBackButton != null) { _gameOverBackButton.onClick.AddListener(OnGameOverBackButtonPressed); }
 
         _levelText.gameObject.SetActive(false);
+
+        StartCoroutine(UpdateFPS());
     }
 
-    private void Update() {
-        _fpsText.text = ((int)(1f / Time.unscaledDeltaTime)).ToString();
+    private IEnumerator UpdateFPS() {
+        while (true) {
+            _fpsText.text = ((int)(1f / Time.unscaledDeltaTime)).ToString();
+            yield return new WaitForSeconds(1);
+        }
     }
 
     public void OnStartGamePressed() {
@@ -80,9 +85,6 @@ public class UIManager : MonoBehaviour {
 
         for (int i = 0; i < highscoreList.Count; i++) {
             HighscoreResource.Highscore highscore = highscoreList[i];
-            hallOfFame.Append("[");
-            hallOfFame.Append(i);
-            hallOfFame.Append("] - ");
             hallOfFame.Append(highscore.Name);
             hallOfFame.Append(" / ");
             hallOfFame.Append(highscore.Score);

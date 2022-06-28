@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Constants" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAKQIEABBAIAAAAAgAEAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Config\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameConfig" Collapsed="true">
+    <Position X="13" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAgAAAAhAAIAAABAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Assets\_Game\Config\GameConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseEnemyBehavior" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAQAAAAAAAAAAAARAAAAAYAAAAEAAAA=</HashCode>
+      <FileName>Assets\_Game\Enemy\Behavior\BaseEnemyBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyFormationBehavior" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAgAAAAAgQAAAAAAAAAAIAAQAAAAAIAAAgEAAAA=</HashCode>
+      <FileName>Assets\_Game\Enemy\Behavior\EnemyFormationBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyPatternBehavior" Collapsed="true">
+    <Position X="2.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAACAAgQAAgAQAAAAAAAAQgAAAAIAAAAUAABA=</HashCode>
+      <FileName>Assets\_Game\Enemy\Behavior\EnemyPatternBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyBehaviorController" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAACAAgRAgAAIAAAAAAAABAAAAAAQAAAEAAAA=</HashCode>
+      <FileName>Assets\_Game\Enemy\EnemyBehaviorController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyMainController" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAIAgAAAAAAgQQBAAJQAAAAUAAACAAAMQCAmAEAAAA=</HashCode>
+      <FileName>Assets\_Game\Enemy\EnemyMainController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EnemyFormation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAIAAAAgQEAAQIgAQgAAAAAAAAAAAgCAQEAAAA=</HashCode>
+      <FileName>Assets\_Game\Enemy\Formation\EnemyFormation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EnemyFormationMovement" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAIAAIACAhQEAAgIAAAAAAAAABAAAQBALAAGAAAA=</HashCode>
+      <FileName>Assets\_Game\Enemy\Formation\EnemyFormationMovement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EnemyManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAACAAAAABgQBBCAogAAAAQAAAAAAQAAAAAAkAAAA=</HashCode>
+      <FileName>Assets\_Game\Enemy\Generic\EnemyManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EnemySpawnPoint" Collapsed="true">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Enemy\Generic\EnemySpawnPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameDependencyInstaller" Collapsed="true">
+    <Position X="14.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAEAAAAAAAAAAAAAAACEAAAACAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\GameDependencyInstaller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseGameState" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAABAAAAAAAAAAASBAAAAIAAEAEAAAQ=</HashCode>
+      <FileName>Assets\_Game\GameStates\BaseGameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameFSM" Collapsed="true">
+    <Position X="16.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAABAAAAAAAIAAAAAAAAQAAAAAAAAAAAFA=</HashCode>
+      <FileName>Assets\_Game\GameStates\GameFSM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOverState" Collapsed="true">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAQAAAAAIAAAAEAAAA=</HashCode>
+      <FileName>Assets\_Game\GameStates\GameOverState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameState" Collapsed="true">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAEAIAAAAEAAAA=</HashCode>
+      <FileName>Assets\_Game\GameStates\GameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainMenuState" Collapsed="true">
+    <Position X="3" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAAAAAAAAAAAAAAAQAAAAAIAAAAEAAAA=</HashCode>
+      <FileName>Assets\_Game\GameStates\MainMenuState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAkBAAAAAgAgiRgFACIACABEQAAACAIYAQAAEAmAEAA=</HashCode>
+      <FileName>Assets\_Game\General\GameManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PlayerSpawnPosition" Collapsed="true">
+    <Position X="18.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Level\PlayerSpawnPosition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LevelEditor" Collapsed="true">
+    <Position X="9.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAABAEAAAAAAABAAIAAAAACIAAAAAAQAAAAAAAAMA=</HashCode>
+      <FileName>Assets\_Game\LevelEditor\LevelEditor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PatternEntry" Collapsed="true">
+    <Position X="14.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAQQAAYAAAAAAAAIAAgAAAAAAAAEEAAAA=</HashCode>
+      <FileName>Assets\_Game\LevelEditor\PatternEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PatternMenuItem" Collapsed="true">
+    <Position X="16.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAQAABAIAAAAAAACAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\LevelEditor\PatternMenuItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PatternsEditor" Collapsed="true">
+    <Position X="18.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAQIBAEwAIgABACQAgBACEADACCAAJABAAAAAggggA=</HashCode>
+      <FileName>Assets\_Game\LevelEditor\PatternsEditor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerFire" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAACAAgQAAAAIACAAAAAAACBAAAAAAEBEAAAA=</HashCode>
+      <FileName>Assets\_Game\Player\PlayerFire.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Player" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACABgAAACAAgQAAAAIAAAAAUAQAAABAEAAAEAEQAAA=</HashCode>
+      <FileName>Assets\_Game\Player\PlayerMainController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PlayerMovement" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAgAAAAAIAAAAAAAAAAAAABAAAAAEAAIA=</HashCode>
+      <FileName>Assets\_Game\Player\PlayerMovement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Projectile" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAABAIABAAAgQgAAAIQAAAQkAAAAAAABACAAAEAAAA=</HashCode>
+      <FileName>Assets\_Game\Projectile\Projectile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ProjectileCollisionDetector" Collapsed="true">
+    <Position X="9.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Projectile\ProjectileCollisionDetector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectileManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAIAAAAAAgAAAAAAAAAAEAEBAAA=</HashCode>
+      <FileName>Assets\_Game\Projectile\ProjectileManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="FormationPatternResource" Collapsed="true">
+    <Position X="11.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAEAAAAAAAAAAAAgAAAAIAA=</HashCode>
+      <FileName>Assets\_Game\ResourceContainers\FormationResource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HighscoreResource" Collapsed="true">
+    <Position X="14.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAEAAAAAAAAAAAAAAAAAAAAAAAQAAYCAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\ResourceContainers\HighscoreResource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LevelResource" Collapsed="true">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAIAAAAAABAAA=</HashCode>
+      <FileName>Assets\_Game\ResourceContainers\LevelResource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MovementPatternResource" Collapsed="true">
+    <Position X="13" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAAAAAAgAABAAA=</HashCode>
+      <FileName>Assets\_Game\ResourceContainers\MovementPatternResource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourceLoader" Collapsed="true">
+    <Position X="14.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAIAAAIAAAAABAAAIAAAEAAAABABACAA=</HashCode>
+      <FileName>Assets\_Game\ResourceContainers\ResourceLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CurrentScoreSignal" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\CurrentScoreSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyKilledSignal" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\EnemyKilledSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOverBackButtonSignal" Collapsed="true">
+    <Position X="7.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\GameOverBackButtonSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOverSignal" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\GameOverSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameTimeTickSignal" Collapsed="true">
+    <Position X="11.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\GameTimeTickSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HighscoreInGameChangeSignal" Collapsed="true">
+    <Position X="13" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\HighscoreInGameChangeSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HighscoresProcessedSignal" Collapsed="true">
+    <Position X="16.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\HighscoresProcessedSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LevelChangedSignal" Collapsed="true">
+    <Position X="18.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\LevelChangedSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LevelClearedSignal" Collapsed="true">
+    <Position X="7.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\LevelClearedSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerFireSignal" Collapsed="true">
+    <Position X="9.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\PlayerFireSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerKilledSignal" Collapsed="true">
+    <Position X="11.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\PlayerKilledSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerObjectKilledSignal" Collapsed="true">
+    <Position X="16.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\PlayerObjectKilledSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundMuteButtonSignal" Collapsed="true">
+    <Position X="18.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\SoundMuteButtonSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundMuteStatusChangedSignal" Collapsed="true">
+    <Position X="7.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\SoundMuteStatusChangedSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StartGameSignal" Collapsed="true">
+    <Position X="9.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\StartGameSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIButtonPressedSignal" Collapsed="true">
+    <Position X="11.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Signals\UIButtonPressedSignal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundManager" Collapsed="true">
+    <Position X="16.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAgAAAAAAAFAAAEAEAACAAAAAAEAIAADA=</HashCode>
+      <FileName>Assets\_Game\Sounds\SoundManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIManager" Collapsed="true">
+    <Position X="13" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAA1AYAAAiAAogAAQAAIAAECADAAEAAAAEFAABAA=</HashCode>
+      <FileName>Assets\_Game\UI\UIManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VFXManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgQAAAIIAAAAAAAAAAQAAABAAAgEAAAA=</HashCode>
+      <FileName>Assets\_Game\VFX\VFXManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VFXObject" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAIABAAAgQAAAAIAAAAAkAAAAAAAIAAAAAEAAAA=</HashCode>
+      <FileName>Assets\_Game\VFX\VFXObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Readme" Collapsed="true">
+    <Position X="13" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAQAAAAAAAAAAAAAAAAAAAQAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\TutorialInfo\Scripts\Readme.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IEnemyTarget" Collapsed="true">
+    <Position X="7.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Enemy\Generic\IEnemyTarget.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IGameControlled" Collapsed="true">
+    <Position X="9.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\_Game\GameStates\IGameControlled.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ITakeHit" Collapsed="true">
+    <Position X="11.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Game\Projectile\ITakeHit.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

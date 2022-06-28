@@ -115,6 +115,8 @@ public class GameManager : MonoBehaviour, IGameControlled {
         TopScore = _resourceLoader.GetHighscores().GetMaxHighscore();
 
         _playerLives = _resourceLoader.GameConfig.PlayerLives;
+        // Update the player lives UI
+        _signalBus.Fire(new PlayerKilledSignal() { PlayerLivesLeft = _playerLives });
 
         _gameTimeCoroutine = StartCoroutine(CountGameTime());
 

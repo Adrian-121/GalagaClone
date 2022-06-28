@@ -4,19 +4,19 @@ public class EnemyBehaviorController : MonoBehaviour {
 
     private EnemyMainController _enemy;
 
-    private BaseEnemyBehavior _currentMover;
-    private EnemyFormationBehavior _formationMover;
-    private EnemyPatternBehavior _patternMover;
+    private BaseEnemyBehavior _currentBehavior;
+    private EnemyFormationBehavior _formationBehavior;
+    private EnemyPatternBehavior _patternBehavior;
 
     public void Construct(EnemyMainController enemy, EnemyFormation formation) {
         _enemy = enemy;
 
-        _formationMover = GetComponentInChildren<EnemyFormationBehavior>();
-        _formationMover.Construct(enemy, formation);
+        _formationBehavior = GetComponentInChildren<EnemyFormationBehavior>();
+        _formationBehavior.Construct(enemy, formation);
 
-        _patternMover = GetComponentInChildren<EnemyPatternBehavior>();
-        _patternMover.Construct(enemy);
-        _patternMover.OnPatternFinished.AddListener(OnPatternFinished);
+        _patternBehavior = GetComponentInChildren<EnemyPatternBehavior>();
+        _patternBehavior.Construct(enemy);
+        _patternBehavior.OnPatternFinished.AddListener(OnPatternFinished);
     }
 
     public void Initialize(MovementPatternResource movementPattern, GameConfig.EnemyConfig config, Vector3 startPosition, float initialRotation) {
@@ -26,47 +26,48 @@ public class EnemyBehaviorController : MonoBehaviour {
         _enemy.transform.rotation = Quaternion.identity;
         _enemy.transform.Rotate(Vector3.forward, initialRotation);
 
-        _patternMover.Initialize(movementPattern, config);
-        _formationMover.Initialize(config);
+        _patternBehavior.Initialize(movementPattern, config);
+        _formationBehavior.Initialize(config);
 
-        ChangeMovement(BaseEnemyBehavior.TypeEnum.PATTERN);
+        // Sets the starting behavior to pattern.
+        ChangeBehavior(BaseEnemyBehavior.TypeEnum.PATTERN);
     }
 
     public void Deinitialize() {
         // Clear the current mover.
-        _currentMover = null;
+        _currentBehavior = null;
 
-        _patternMover.OnExit();
-        _formationMover.OnExit();
+        _patternBehavior.OnExit();
+        _formationBehavior.OnExit();
     }
 
     public void OnUpdate() {
-        if (_currentMover != null) {
-            _currentMover.OnUpdate();
+        if (_currentBehavior != null) {
+            _currentBehavior.OnUpdate();
         }
     }
 
-    private void ChangeMovement(BaseEnemyBehavior.TypeEnum movementType) {
-        if (_currentMover != null) {
-            _currentMover.OnExit();
+    private void ChangeBehavior(BaseEnemyBehavior.TypeEnum movementType) {
+        if (_currentBehavior != null) {
+            _currentBehavior.OnExit();
         }
 
         switch (movementType) {
             case BaseEnemyBehavior.TypeEnum.FORMATION:
-                _currentMover = _formationMover;
+                _currentBehavior = _formationBehavior;
                 break;
 
             case BaseEnemyBehavior.TypeEnum.PATTERN:
-                _currentMover = _patternMover;
+                _currentBehavior = _patternBehavior;
                 break;
         }
 
-        if (_currentMover != null) {
-            _currentMover.OnEnter();
+        if (_currentBehavior != null) {
+            _currentBehavior.OnEnter();
         }
     }
 
     private void OnPatternFinished() {
-        ChangeMovement(BaseEnemyBehavior.TypeEnum.FORMATION);
+        ChangeBehavior(BaseEnemyBehavior.TypeEnum.FORMATION);
     }
 }

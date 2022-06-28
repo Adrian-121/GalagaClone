@@ -11,10 +11,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameEditorScene.unity
     guid: 99c3c2fa9ce1d8a45aecacfff98aae63
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 5ea690706f5dc504aa74a7627e4990a8, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: dd5d2ef391af1224393ef314390163a6, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: d56533ffe75f7ab4b8d62a60086af4bf, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: e24f8a9baf95fc74cb022b1cc4191919, type: 2}

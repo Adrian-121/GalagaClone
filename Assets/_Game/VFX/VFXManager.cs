@@ -8,6 +8,8 @@ public class VFXManager : MonoBehaviour, IGameControlled {
 
     private List<VFXObject> _vfxObjectList = new List<VFXObject>();
 
+    private bool _isActive;
+
     [Inject]
     public void Construct(VFXObject.Factory vfxObjectFactory) {
         _vfxObjectFactory = vfxObjectFactory;
@@ -20,7 +22,13 @@ public class VFXManager : MonoBehaviour, IGameControlled {
         }
     }
 
+    public void Initialize() {
+        _isActive = true;
+    }
+
     public void Deinitialize() {
+        _isActive = false;
+
         foreach (VFXObject vfxObject in _vfxObjectList) {
             vfxObject.Deinitialize();
         }
@@ -36,6 +44,7 @@ public class VFXManager : MonoBehaviour, IGameControlled {
     /// Tries to spawn a new visual effect, if any available.
     /// </summary>
     public void TrySpawnVFX(VFXObject.TypeEnum type, Vector3 position) {
+        if (!_isActive) { return; }
         VFXObject vfxToUse = null;
 
         foreach (VFXObject vfxObject in _vfxObjectList) {

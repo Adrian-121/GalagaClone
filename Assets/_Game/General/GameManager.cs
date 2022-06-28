@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
         }
         
         _player.Initialize(_playerSpawnPosition.transform.position);
+        _vfxManager.Initialize();
 
         _currentLevelNumber = _resourceLoader.GameConfig.StartLevel;
         CurrentScore = 0;

@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private InputField _highscoreNameInput;
     [SerializeField] private Button _gameOverBackButton;
 
+    [SerializeField] private Text _fpsText;
+
     private SignalBus _signalBus;
 
     [Inject]
@@ -47,6 +49,10 @@ public class UIManager : MonoBehaviour {
         if (_gameOverBackButton != null) { _gameOverBackButton.onClick.AddListener(OnGameOverBackButtonPressed); }
 
         _levelText.gameObject.SetActive(false);
+    }
+
+    private void Update() {
+        _fpsText.text = ((int)(1f / Time.unscaledDeltaTime)).ToString();
     }
 
     public void OnStartGamePressed() {

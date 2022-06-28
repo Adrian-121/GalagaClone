@@ -4,17 +4,19 @@ using Zenject;
 
 public class PlayerMainController : MonoBehaviour, ITakeHit, IEnemyTarget, IGameControlled {
 
+    // Game Systems.
     private PlayerInput _playerInput;
     private SignalBus _signalBus;
     private VFXManager _vfxManager;
     private SoundManager _soundManager;
 
+    // Player Components.
     private PlayerMovement _playerMovement;
     private PlayerFire _playerFire;
-
-    private Vector3 _startPosition;
-
     private SpriteRenderer _renderer;
+
+    // Variables.
+    private Vector3 _startPosition;
     private bool _isAlive;
 
     [Inject]
@@ -42,6 +44,7 @@ public class PlayerMainController : MonoBehaviour, ITakeHit, IEnemyTarget, IGame
 
         _startPosition = startPosition;
         transform.position = startPosition;
+
         _isAlive = true;
     }
 
@@ -53,6 +56,9 @@ public class PlayerMainController : MonoBehaviour, ITakeHit, IEnemyTarget, IGame
         _isAlive = false;
     }
 
+    /// <summary>
+    /// Called when the player collides with a projectile or an enemy.
+    /// </summary>
     public void TakeHit(GameObject from, bool fullDamage) {
         _signalBus.Fire<PlayerObjectKilledSignal>();
 

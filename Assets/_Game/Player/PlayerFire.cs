@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class PlayerFire : MonoBehaviour {
+public class PlayerFire : MonoBehaviour, IGameControlled {
 
     private SignalBus _signalBus;
 
@@ -26,6 +26,9 @@ public class PlayerFire : MonoBehaviour {
 
     public void Deinitialize() {
         _signalBus.TryUnsubscribe<PlayerFireSignal>(OnPlayerFire);
+    }
+
+    public void OnUpdate() {
     }
 
     private void OnPlayerFire() {

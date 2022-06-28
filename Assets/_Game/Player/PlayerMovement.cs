@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour, IGameControlled {
     }
 
     public void Deinitialize() {
-
     }
 
     public void OnUpdate() {
@@ -23,6 +22,7 @@ public class PlayerMovement : MonoBehaviour, IGameControlled {
         Vector2 move = gamepad.leftStick.ReadValue();
         move.x = Mathf.RoundToInt(move.x);
 
+        // If no input from the controller, check the keyboard. (Used for debug)
         if (move.magnitude <= 0) {
             move = _playerInput.actions["Move"].ReadValue<Vector2>();
         }
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour, IGameControlled {
         Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
-        transform.parent.position = new Vector2(
-            Mathf.Clamp(transform.parent.position.x, minScreenBounds.x + _screenBoundsOffset, maxScreenBounds.x - _screenBoundsOffset), transform.parent.position.y);
+        float posX = Mathf.Clamp(transform.parent.position.x, minScreenBounds.x + _screenBoundsOffset, maxScreenBounds.x - _screenBoundsOffset);
+        transform.parent.position = new Vector2(posX, transform.parent.position.y);
     }
 }

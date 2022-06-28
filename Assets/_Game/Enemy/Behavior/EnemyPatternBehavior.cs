@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// Moves the enemy in the specified pattern.
+/// </summary>
 public class EnemyPatternBehavior : BaseEnemyBehavior {
 
     public UnityEvent OnPatternFinished;
@@ -38,18 +41,26 @@ public class EnemyPatternBehavior : BaseEnemyBehavior {
         ProcessCurrentSequence();                
     }
 
+    /// <summary>
+    /// Checks the current sequence and pattern's states.
+    /// </summary>
     private void ProcessCurrentSequence() {
+        // Is the current sequence finished?
         if (Time.time - _currentTimer > _movementPattern.SequenceList[_currentSequenceID].TimeInSeconds) {
             _currentSequenceID++;
             _currentTimer = Time.time;
         }
 
+        // Are all the sequences finished? => pattern finished.
         if (_currentSequenceID >= _movementPattern.SequenceList.Count) {
             _isFinished = true;
             OnPatternFinished.Invoke();
         }
     }
 
+    /// <summary>
+    /// Applies the movement from the current sequence to the enemy.
+    /// </summary>
     private void ApplyMovement() {
         if (_isFinished) { return; }
 

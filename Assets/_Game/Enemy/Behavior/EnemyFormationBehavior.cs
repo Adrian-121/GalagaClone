@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Handles the enemy's behavior once it has been assigned to the formation.
+/// </summary>
 public class EnemyFormationBehavior : BaseEnemyBehavior {
 
     protected EnemyFormation _enemyFormation;
@@ -18,8 +21,8 @@ public class EnemyFormationBehavior : BaseEnemyBehavior {
     }
 
     public override void OnEnter() {
-
         if (_enemyFormation == null) { return; }
+
         _formationSlot = _enemyFormation.AssignEnemy(_enemy);
         _enemy.transform.rotation = Quaternion.identity;
     }
@@ -40,6 +43,9 @@ public class EnemyFormationBehavior : BaseEnemyBehavior {
         }        
     }
 
+    /// <summary>
+    /// Moves the enemy towards the designated formation position.
+    /// </summary>
     private void GotoFormationPosition() {
         Vector3 formationPosition = _enemyFormation.FormationSlotToWorldPosition(_formationSlot);
         float dist = Vector3.Distance(_enemy.transform.position, formationPosition);
@@ -53,6 +59,9 @@ public class EnemyFormationBehavior : BaseEnemyBehavior {
         _enemy.transform.Translate(_config.speed * dir * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Keeps the enemy in the formation position.
+    /// </summary>
     private void MaintainFormation() {
         _enemy.transform.position = _enemyFormation.FormationSlotToWorldPosition(_formationSlot);
     }

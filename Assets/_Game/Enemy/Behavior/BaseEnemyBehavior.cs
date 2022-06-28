@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Base class used to implement all the enemy's behaviors
+/// </summary>
 public abstract class BaseEnemyBehavior : MonoBehaviour {
 
     public enum TypeEnum {

@@ -1,19 +1,22 @@
 using UnityEngine;
 using Zenject;
 
-public class VFXObject : MonoBehaviour {
+public class VFXObject : MonoBehaviour, IGameControlled {
 
     public enum TypeEnum {
         PLAYER_EXPLOSION = 1,
         ENEMY_EXPLOSION = 2
     }
 
+    public bool IsAlive { get; private set; }
+
     [SerializeField] private float _lifetimeInSeconds = 5.15f;
 
-    public bool IsAlive { get; private set; }
+    // Components.
     private SpriteRenderer _renderer;
     private Animator _animator;
 
+    
     private float _timeSinceLaunched;
 
     public void Construct() {
@@ -29,12 +32,14 @@ public class VFXObject : MonoBehaviour {
 
         _renderer.gameObject.SetActive(true);
         _animator.SetInteger(Constants.ANIM_EXPLOSION_TYPE, (int)type);
-
         
         _timeSinceLaunched = Time.time;
     }
 
-    private void Update() {
+    public void Deinitialize() {
+    }
+
+    public void OnUpdate() {
         if (!IsAlive) { return; }
 
         if (Time.time - _timeSinceLaunched > _lifetimeInSeconds) {

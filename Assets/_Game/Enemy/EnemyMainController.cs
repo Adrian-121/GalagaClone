@@ -107,7 +107,7 @@ public class EnemyMainController : MonoBehaviour, ITakeHit, IGameControlled {
         _animator.SetBool(Constants.ANIM_IS_FULL_HP, false);
 
         if (_hp <= 0) {
-            _vfxManager.SpawnVFX(VFXObject.TypeEnum.ENEMY_EXPLOSION, transform.position);
+            _vfxManager.TrySpawnVFX(VFXObject.TypeEnum.ENEMY_EXPLOSION, transform.position);
 
             if (_type == TypeEnum.BOSS) {
                 _soundManager.PlayBigBoom();

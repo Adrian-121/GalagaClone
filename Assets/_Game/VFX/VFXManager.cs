@@ -24,14 +24,20 @@ public class VFXManager : MonoBehaviour, IGameControlled {
     }
 
     public void OnUpdate() {
+        foreach (VFXObject vfxObject in _vfxObjectList) {
+            vfxObject.OnUpdate();
+        }
     }
 
-    public void SpawnVFX(VFXObject.TypeEnum type, Vector3 position) {
+    /// <summary>
+    /// Tries to spawn a new visual effect, if any available.
+    /// </summary>
+    public void TrySpawnVFX(VFXObject.TypeEnum type, Vector3 position) {
         VFXObject vfxToUse = null;
 
-        foreach (VFXObject vfObject in _vfxObjectList) {
-            if (!vfObject.IsAlive) {
-                vfxToUse = vfObject;
+        foreach (VFXObject vfxObject in _vfxObjectList) {
+            if (!vfxObject.IsAlive) {
+                vfxToUse = vfxObject;
                 break;
             }
         }

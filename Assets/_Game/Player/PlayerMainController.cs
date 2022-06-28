@@ -62,7 +62,7 @@ public class PlayerMainController : MonoBehaviour, ITakeHit, IEnemyTarget, IGame
     public void TakeHit(GameObject from, bool fullDamage) {
         _signalBus.Fire<PlayerObjectKilledSignal>();
 
-        _vfxManager.SpawnVFX(VFXObject.TypeEnum.PLAYER_EXPLOSION, transform.position);
+        _vfxManager.TrySpawnVFX(VFXObject.TypeEnum.PLAYER_EXPLOSION, transform.position);
         _soundManager.PlayBigBoom();
 
         transform.position = _startPosition;

@@ -14,12 +14,14 @@ public class GameOverState : BaseGameState {
     }
 
     private void OnGameOverBackPressed(GameOverBackButtonSignal args) {
+        // Add a new highscore, if the name's length is greater than 0.
         if (args.Name.Length > 0) {
             HighscoreResource highscores = _resourceLoader.GetHighscores();
             highscores.AddHighscore(new HighscoreResource.Highscore() { Name = args.Name, Score = _gameManager.CurrentScore });
             _resourceLoader.SetHighscores(highscores);
         }
 
+        // Go back to the main menu.
         _gameFSM.ChangeState(StateNameEnum.MAIN_MENU);
     }
 }

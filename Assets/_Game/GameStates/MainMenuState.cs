@@ -22,6 +22,7 @@ public class MainMenuState : BaseGameState {
     }
 
     private void ProcessHighScores() {
+        // Fires an event to display the highscores for the UI.
         HighscoreResource highscores = _resourceLoader.GetHighscores();
         _signalBus.Fire(new HighscoresProcessedSignal() { Highscores = highscores });
     }

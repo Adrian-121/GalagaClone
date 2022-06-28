@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -12,9 +11,13 @@ public class ProjectileManager : MonoBehaviour, IGameControlled {
     public void Construct(Projectile.Factory projectileFactory) {
         _projectileFactory = projectileFactory;
 
+        // Filling the projectile pool.
+
         for (int i = 0; i < Constants.PROJECTILE_POOL_MAX; i++) {
             Projectile newProjectile = _projectileFactory.Create();
+
             newProjectile.transform.SetParent(transform);
+            newProjectile.Construct();
 
             _projectileList.Add(newProjectile);
         }
@@ -32,7 +35,10 @@ public class ProjectileManager : MonoBehaviour, IGameControlled {
         }
     }
 
-    public void Fire(Vector3 position, Quaternion rotation, GameObject parent) {
+    /// <summary>
+    /// Tries to fire a projectile, if any available.
+    /// </summary>
+    public void TryFire(Vector3 position, Quaternion rotation, GameObject parent) {
         Projectile projectileToUse = null;
 
         foreach (Projectile projectile in _projectileList) {

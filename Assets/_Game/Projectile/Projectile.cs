@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour, IGameControlled {
     private bool _isAlive;
     public bool IsAlive => _isAlive;
 
+    // Components.
     private SpriteRenderer _renderer;
     private ProjectileCollisionDetector _collisionDetector;
     private GameObject _parent;
@@ -16,7 +17,7 @@ public class Projectile : MonoBehaviour, IGameControlled {
 
     private float _timeSinceLaunched;
 
-    private void Awake() {
+    public void Construct() {
         _renderer = GetComponentInChildren<SpriteRenderer>();
         _trail = GetComponentInChildren<TrailRenderer>();
         
@@ -30,13 +31,13 @@ public class Projectile : MonoBehaviour, IGameControlled {
         transform.position = position;
         transform.rotation = rotation;
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+
         _parent = parent;
 
         _renderer.gameObject.SetActive(true);
         _trail.Clear();
 
         _isAlive = true;
-
         _timeSinceLaunched = Time.time;
     }
 
@@ -62,8 +63,11 @@ public class Projectile : MonoBehaviour, IGameControlled {
     private void OnCollided(GameObject withObject) {
         ITakeHit takeHit = withObject.transform.GetComponentInParent<ITakeHit>();
 
+        // Prevent collisions with objects that don't matter.
         if (takeHit == null) { return; }
+        // Prevent self collision.
         if (withObject.transform.parent.gameObject == _parent) { return; }
+        // Prevent collision with the same object types. E.g. projectiles from enemies with other enemies.
         if (withObject.layer == _parent.layer) { return; }
 
         takeHit.TakeHit(gameObject, false);

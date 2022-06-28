@@ -95,7 +95,7 @@ public class EnemyMainController : MonoBehaviour, ITakeHit, IGameControlled {
             Vector3 rotatedVectorToTarget = Quaternion.Euler(0, 0, 0) * vectorToTarget;
             Quaternion targetRotation = Quaternion.LookRotation(forward: Vector3.forward, upwards: rotatedVectorToTarget);
 
-            _projectileManager.Fire(transform.position, targetRotation, gameObject);
+            _projectileManager.TryFire(transform.position, targetRotation, gameObject);
         }
     }
 

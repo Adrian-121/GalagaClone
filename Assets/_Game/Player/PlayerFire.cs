@@ -34,7 +34,7 @@ public class PlayerFire : MonoBehaviour, IGameControlled {
     private void OnPlayerFire() {
         if (Time.time - _timeFromLastShot > _reloadTime) {
             _timeFromLastShot = Time.time;
-            _projectileManager.Fire(_player.transform.position, _player.transform.rotation, _player.gameObject);
+            _projectileManager.TryFire(_player.transform.position, _player.transform.rotation, _player.gameObject);
             _soundManager.PlayShootSound();
         }
     }

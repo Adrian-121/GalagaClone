@@ -1,4 +1,5 @@
 public class FormationPatternResource {
+
     public readonly int MaxRows;
     public readonly int MaxColumns;
     public readonly int UsedSlotsNumber;
@@ -10,4 +11,5 @@ public class FormationPatternResource {
         UsedSlotsNumber = usedSlotsNumber;
         Values = values;
     }
+
 }

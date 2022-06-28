@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
 
         _currentLevelNumber = 1;
         CurrentScore = 0;
-        TopScore = _resourceLoader.GetHighscores().GetTop();
+        TopScore = _resourceLoader.GetHighscores().GetMaxHighscore();
 
         _playerLives = _resourceLoader.GameConfig.PlayerLives;
 

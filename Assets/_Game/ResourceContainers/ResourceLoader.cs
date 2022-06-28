@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Class used to load resources.
+/// </summary>
 public class ResourceLoader : MonoBehaviour {
 
     [SerializeField] private GameConfig _gameConfig;

@@ -38,7 +38,10 @@ public class HighscoreResource {
         }
     }
 
-    public int GetTop() {
+    /// <summary>
+    /// Returns the highest score.
+    /// </summary>
+    public int GetMaxHighscore() {
         int max = 0;
 
         for (int i = 0; i < HighscoreList.Count; i++) {

@@ -21,6 +21,9 @@ public class VFXManager : MonoBehaviour, IGameControlled {
     }
 
     public void Deinitialize() {
+        foreach (VFXObject vfxObject in _vfxObjectList) {
+            vfxObject.Deinitialize();
+        }
     }
 
     public void OnUpdate() {

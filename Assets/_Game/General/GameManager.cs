@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour, IGameControlled {
         
         _player.Initialize(_playerSpawnPosition.transform.position);
 
-        _currentLevelNumber = 1;
+        _currentLevelNumber = _resourceLoader.GameConfig.StartLevel;
         CurrentScore = 0;
         TopScore = _resourceLoader.GetHighscores().GetMaxHighscore();
 

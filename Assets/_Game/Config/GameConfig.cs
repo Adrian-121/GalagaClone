@@ -7,6 +7,8 @@ public class GameConfig : ScriptableObject {
 
     public int PlayerLives = 3;
 
+    public int StartLevel = 1;
+
     public EnemyConfig DefaultEnemyConfig;
     public List<EnemyConfig> EnemyConfigList;
 

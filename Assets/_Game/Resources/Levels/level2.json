@@ -1,0 +1,50 @@
+{
+	"Name": "L E V E L  2",
+	"Formation": "level2_formation",
+	"SequenceList":
+	[
+		{
+			"Time": 1,
+			"EnemyType": 1,
+			"Delay": 0.25,
+			"MovementPatternName": "p1",
+			"SpawnCount": 50
+		},
+		{
+			"Time": 5,
+			"EnemyType": 1,
+			"Delay": 0.25,
+			"MovementPatternName": "p3245",
+			"SpawnCount": 50
+		},
+		{
+			"Time": 10,
+			"EnemyType": 2,
+			"Delay": 0.25,
+			"MovementPatternName": "p311",
+			"SpawnCount": 50
+		},
+		{
+			"Time": 15,
+			"EnemyType": 2,
+			"Delay": 0.25,
+			"MovementPatternName": "p3736",
+			"SpawnCount": 50
+		},
+		{
+			"Time": 25,
+			"EnemyType": 3,
+			"Delay": 0.25,
+			"MovementPatternName": "p2381",
+			"SpawnCount": 2
+		},
+		{
+			"Time": 30,
+			"EnemyType": 3,
+			"Delay": 0.25,
+			"MovementPatternName": "p3245",
+			"SpawnCount": 2
+		}
+
+	]
+}

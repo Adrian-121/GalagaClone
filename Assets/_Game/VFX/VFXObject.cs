@@ -37,6 +37,7 @@ public class VFXObject : MonoBehaviour, IGameControlled {
     }
 
     public void Deinitialize() {
+        DestroyThis();
     }
 
     public void OnUpdate() {

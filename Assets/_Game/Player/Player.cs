@@ -20,7 +20,9 @@ public class Player : MonoBehaviour, ITakeHit, IEnemyTarget, IGameControlled {
     private bool _isAlive;
 
     [Inject]
-    public void Construct(ProjectileSystem projectileManager, SignalBus signalBus, SoundSystem soundManager, VFXSystem vfxManager) {
+    public void Construct(ProjectileSystem projectileManager, SignalBus signalBus, 
+        SoundSystem soundManager, VFXSystem vfxManager, ResourceLoader resourceLoader) {
+
         _signalBus = signalBus;
         _soundManager = soundManager;
         _vfxManager = vfxManager;
@@ -28,10 +30,10 @@ public class Player : MonoBehaviour, ITakeHit, IEnemyTarget, IGameControlled {
         _playerInput = GetComponent<PlayerInput>();
 
         _playerMovement = GetComponentInChildren<PlayerMovement>();
-        _playerMovement.Construct(_playerInput);
+        _playerMovement.Construct(_playerInput, resourceLoader);
 
         _playerFire = GetComponentInChildren<PlayerFire>();
-        _playerFire.Construct(_signalBus, this, projectileManager, soundManager);
+        _playerFire.Construct(_signalBus, this, projectileManager, soundManager, resourceLoader);
 
         _renderer = GetComponentInChildren<SpriteRenderer>();
         _isAlive = false;

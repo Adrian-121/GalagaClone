@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   PlayerLives: 3
+  PlayerMoveSpeed: 3
+  PlayerReloadTime: 0.35
   StartLevel: 1
   DefaultEnemyConfig:
     type: 1
@@ -46,8 +48,8 @@ MonoBehaviour:
     points: 250
     LungeChange: 0
     LungeCheckTime: 0
-    ProjectileChance: 0
-    ProjectileCheckTimeout: 0
+    ProjectileChance: 5
+    ProjectileCheckTimeout: 5
   FormationConfigList:
   - MovementType: 1
     Time: 25

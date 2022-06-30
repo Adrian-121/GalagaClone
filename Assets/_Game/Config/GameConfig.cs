@@ -5,13 +5,19 @@ using UnityEngine;
 
 public class GameConfig : ScriptableObject {
 
+    [Header("Player")]
     public int PlayerLives = 3;
+    public float PlayerMoveSpeed = 5;
+    public float PlayerReloadTime = 0.5f;
 
+    [Header("Game")]
     public int StartLevel = 1;
 
+    [Header("Enemies")]
     public EnemyConfig DefaultEnemyConfig;
     public List<EnemyConfig> EnemyConfigList;
 
+    [Header("Formation")]
     public List<FormationMovementConfig> FormationConfigList;
 
     public EnemyConfig GetEnemyConfigByType(Enemy.TypeEnum type) {

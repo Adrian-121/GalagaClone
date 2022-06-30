@@ -8,16 +8,17 @@ public class PlayerFire : MonoBehaviour, IGameControlled {
     private Player _player;
     private ProjectileSystem _projectileManager;
     private SoundSystem _soundManager;
+    private ResourceLoader _resourceLoader;
 
-    private float _reloadTime = 0.5f;
     private float _timeFromLastShot;
 
-    public void Construct(SignalBus signalBus, Player player, ProjectileSystem projectileManager, SoundSystem soundManager) {
+    public void Construct(SignalBus signalBus, Player player, ProjectileSystem projectileManager, SoundSystem soundManager, ResourceLoader resourceLoader) {
         _signalBus = signalBus;
         _player = player;
-
+        
         _projectileManager = projectileManager;
         _soundManager = soundManager;
+        _resourceLoader = resourceLoader;
     }
 
     public void Initialize() {
@@ -32,7 +33,7 @@ public class PlayerFire : MonoBehaviour, IGameControlled {
     }
 
     private void OnPlayerFire() {
-        if (Time.time - _timeFromLastShot > _reloadTime) {
+        if (Time.time - _timeFromLastShot > _resourceLoader.GameConfig.PlayerReloadTime) {
             _timeFromLastShot = Time.time;
             _projectileManager.TryFire(_player.transform.position, _player.transform.rotation, _player.gameObject);
             _soundManager.PlayShootSound();

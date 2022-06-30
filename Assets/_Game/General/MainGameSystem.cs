@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class GameManager : MonoBehaviour, IGameControlled {
+public class MainGameSystem : MonoBehaviour, IGameControlled {
 
     private SignalBus _signalBus;
 

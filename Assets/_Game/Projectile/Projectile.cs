@@ -61,6 +61,9 @@ public class Projectile : MonoBehaviour, IGameControlled {
     }
 
     private void OnCollided(GameObject withObject) {
+        // Prevent additional collisions with the projectile if it was disabled.
+        if (!_isAlive) { return; }
+
         ITakeHit takeHit = withObject.transform.GetComponentInParent<ITakeHit>();
 
         // Prevent collisions with objects that don't matter.

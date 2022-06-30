@@ -17,7 +17,7 @@ public class GameOverState : BaseGameState {
         // Add a new highscore, if the name's length is greater than 0.
         if (args.Name.Length > 0) {
             HighscoreResource highscores = _resourceLoader.GetHighscores();
-            highscores.AddHighscore(new HighscoreResource.Highscore() { Name = args.Name, Score = _gameManager.CurrentScore });
+            highscores.AddHighscore(new HighscoreResource.Highscore() { Name = args.Name, Score = _mainGameSystem.CurrentScore });
             _resourceLoader.SetHighscores(highscores);
         }
 

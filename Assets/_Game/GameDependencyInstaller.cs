@@ -37,7 +37,7 @@ public class GameDependencyInstaller : MonoInstaller {
 
         // Game Systems.
         Container.Bind<GameFSM>().FromInstance(FindObjectOfType<GameFSM>()).AsSingle().NonLazy();
-        Container.Bind<GameManager>().FromInstance(FindObjectOfType<GameManager>()).AsSingle().NonLazy();
+        Container.Bind<MainGameSystem>().FromInstance(FindObjectOfType<MainGameSystem>()).AsSingle().NonLazy();
         Container.Bind<ResourceLoader>().FromInstance(FindObjectOfType<ResourceLoader>()).AsSingle().NonLazy();
         Container.Bind<ProjectileSystem>().FromInstance(FindObjectOfType<ProjectileSystem>()).AsSingle().NonLazy();
         Container.Bind<UISystem>().FromInstance(FindObjectOfType<UISystem>()).AsSingle().NonLazy();

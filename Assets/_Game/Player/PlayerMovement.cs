@@ -3,14 +3,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour, IGameControlled {
 
-    [SerializeField] private float _speed = 5;
-
     private float _screenBoundsOffset = 0.5f;
 
     private PlayerInput _playerInput;
+    private ResourceLoader _resourceLoader;
 
-    public void Construct(PlayerInput playerInput) {
+    public void Construct(PlayerInput playerInput, ResourceLoader resourceLoader) {
         _playerInput = playerInput;
+        _resourceLoader = resourceLoader;
     }
 
     public void Deinitialize() {
@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour, IGameControlled {
             move = _playerInput.actions["Move"].ReadValue<Vector2>();
         }
 
-        transform.parent.Translate(move * _speed * Vector2.right * Time.deltaTime);
+        transform.parent.Translate(move * _resourceLoader.GameConfig.PlayerMoveSpeed * Vector2.right * Time.deltaTime);
 
         Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));

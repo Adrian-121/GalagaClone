@@ -6,20 +6,20 @@ public class GameState : BaseGameState {
         _associatedUIWindow.SetActive(true);
 
         // Start a new game.
-        _gameManager.StartNewGame();
+        _mainGameSystem.StartNewGame();
     }
 
     public override void OnExit() {
         _associatedUIWindow.SetActive(false);
 
         // Stop the current running game.
-        _gameManager.Deinitialize();
+        _mainGameSystem.Deinitialize();
 
         _signalBus.Unsubscribe<GameOverSignal>(OnGameOver);
     }
 
     public override void OnUpdate() {
-        _gameManager.OnUpdate();
+        _mainGameSystem.OnUpdate();
     }
 
     private void OnGameOver() {

@@ -28,30 +28,9 @@ public class EnemySystem : MonoBehaviour, IGameControlled {
         _formation = GetComponentInChildren<EnemyFormation>();
         _formation.Construct(_resourceLoader.GameConfig.FormationConfigList);
 
-        // Movement Patterns.
-
-        _movementPatternList = resourceLoader.GetMovementPatterns().Patterns;
-        foreach (MovementPatternResource movementPattern in _movementPatternList) {
-            _nameToMovementPattern.Add(movementPattern.Name, movementPattern);
-        }
-
-        // Populating the Enemy Pool.
-
-        for (int i = 0; i < Constants.ENEMY_POOL_MAX; i++) {
-            Enemy newEnemy = _enemyFactory.Create();
-            
-            newEnemy.Construct(_formation);
-            newEnemy.transform.SetParent(transform);
-
-            _enemyList.Add(newEnemy);
-        }
-
-        // Gathering the Spawn Points.
-
-        EnemySpawnPoint[] spawnPoints = GetComponentsInChildren<EnemySpawnPoint>();
-        foreach (EnemySpawnPoint spawnPoint in spawnPoints) {
-            _spawnPointsList.Add(spawnPoint.Type, spawnPoint.transform);
-        }
+        LoadMovementPatterns(resourceLoader);
+        PopulateEnemyPool();
+        InitializeSpawnPoints();
 
         // Subscribe to events.
 
@@ -62,6 +41,31 @@ public class EnemySystem : MonoBehaviour, IGameControlled {
                 signalBus.Fire<LevelClearedSignal>();
             }
         });
+    }
+
+    private void LoadMovementPatterns(ResourceLoader resourceLoader) {
+        _movementPatternList = resourceLoader.GetMovementPatterns().Patterns;
+        foreach (MovementPatternResource movementPattern in _movementPatternList) {
+            _nameToMovementPattern.Add(movementPattern.Name, movementPattern);
+        }
+    }
+
+    private void PopulateEnemyPool() {
+        for (int i = 0; i < Constants.ENEMY_POOL_MAX; i++) {
+            Enemy newEnemy = _enemyFactory.Create();
+
+            newEnemy.Construct(_formation);
+            newEnemy.transform.SetParent(transform);
+
+            _enemyList.Add(newEnemy);
+        }
+    }
+
+    private void InitializeSpawnPoints() {
+        EnemySpawnPoint[] spawnPoints = GetComponentsInChildren<EnemySpawnPoint>();
+        foreach (EnemySpawnPoint spawnPoint in spawnPoints) {
+            _spawnPointsList.Add(spawnPoint.Type, spawnPoint.transform);
+        }
     }
 
     public void Initialize(IEnemyTarget target, string currentFormationName) {

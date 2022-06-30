@@ -11,7 +11,7 @@ public abstract class BaseGameState : MonoBehaviour {
     [Inject] protected GameFSM _gameFSM;
     [Inject] protected readonly SignalBus _signalBus;
     [Inject] protected ResourceLoader _resourceLoader;
-    [Inject] protected GameManager _gameManager;
+    [Inject] protected MainGameSystem _mainGameSystem;
 
     public enum StateNameEnum {
         MAIN_MENU = 1,
